@@ -4,16 +4,24 @@
 
 namespace External {
 
-    Memory::Memory(){
-        handle = NULL;
-    }
-
     Memory::Memory(std::string proc) {
         getProcess(proc);
     }
 
     Memory::~Memory(){
         CloseHandle(handle);
+    }
+
+    std::string Memory::readString(uintptr_t addToBeRead, size_t size){
+        bool oneWord = size == 0;
+        if(oneWord)
+            size = 200;
+        std::vector<char> chars(size);
+        ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL);
+        std::string name(chars.begin(), chars.end());
+        if (oneWord)
+            return name.substr(0, name.find(" "));
+        return name;
     }
 
     uintptr_t Memory::getProcess(std::string proc)
@@ -25,7 +33,7 @@ namespace External {
 
         do
         {
-            if (_stricmp(pEntry.szExeFile, proc.c_str()))
+            if (!_stricmp(pEntry.szExeFile, proc.c_str()))
             {
                 process = pEntry.th32ProcessID;
                 CloseHandle(hProcessId);

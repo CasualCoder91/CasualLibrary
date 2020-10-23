@@ -2,7 +2,7 @@
  * The Memory class is a collection functions used for external memory hacking.
  *
  * @author CasualComunity: Alien, C3x0r, CasualGamer
- * @version 0.1 26.07.2020
+ * @version 0.2 23.10.2020
 */
 
 #pragma once
@@ -15,7 +15,6 @@ namespace External {
     {
 
     public:
-        Memory();
         Memory(std::string proc);
 
         ~Memory();
@@ -26,6 +25,8 @@ namespace External {
             ReadProcessMemory(handle, (LPBYTE*)addToBeRead, &varBuff, sizeof(varBuff), nullptr);
             return varBuff;
         }
+
+        std::string readString(uintptr_t addToBeRead, size_t size=0);
 
         template <typename Z>
         Z write(uintptr_t addToWrite, Z valToWrite){
