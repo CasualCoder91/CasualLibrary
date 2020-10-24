@@ -9,6 +9,7 @@
 #include<Windows.h>
 #include<Vector>
 #include<string>
+#include<TlHelp32.h>
 
 namespace External {
     class Memory
@@ -34,14 +35,22 @@ namespace External {
             return valToWrite;
         }
 
-        /**@brief returns process id of of process with given name \p proc.*/
-        uintptr_t getProcess(std::string proc);
-        uintptr_t getModule(uintptr_t procId, const wchar_t* modName);
+        /**@brief returns process id of the target process*/
+        DWORD getProcessID();
+        /**@brief returns the module base address of \p modName (example: "client.dll")*/
+        uintptr_t getModule(const wchar_t* modName);
         uintptr_t getAddress(uintptr_t addr, std::vector<uintptr_t> vect);
         bool memoryCompare(const BYTE* bData, const BYTE* bMask, const char* szMask) noexcept;
-        uintptr_t findSignatureAddress(uintptr_t start, int size, const char* signature, const char* mask) noexcept;
+        uintptr_t findSignatureAddress(uintptr_t start, size_t size, const char* signature, const char* mask) noexcept;
+
     private:
         HANDLE handle;
+        /** @brief ID of the target process */
+        DWORD processID = 0;
+        /**@brief initialize member variables.
+        @param proc Name of the target process ("target.exe")
+        @returns whether or not initialization was successful*/
+        bool init(std::string proc);
 
     };
 }
