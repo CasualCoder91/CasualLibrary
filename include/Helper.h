@@ -5,5 +5,5 @@
 
 class Helper {
 public:
-	static bool is64(HANDLE process);
+	static bool is64(const HANDLE process);
 };
