@@ -6,6 +6,10 @@ Helper library for external windows game hacking.
 
 Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="_blank">CasualCommunity</a>
 
+## Documentation
+
+The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a>
+
 ## Usage
 
 bare-bones setup
@@ -33,4 +37,16 @@ std::string word = memory.readString(address);
 std::string text = memory.readString(address, 200);
 //write value 5 starting at given address
 memory.write<int>(address, 5);
+```
+
+get address from static pointer + offsets
+
+```cpp
+uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });
+```
+
+get module base address
+
+```cpp
+uintptr_t clientAddr = memory.getModule(L"client.dll");
 ```

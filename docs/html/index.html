@@ -73,6 +73,9 @@ About The Project</h1>
 <p><a class="el" href="class_helper.html">Helper</a> library for external windows game hacking.</p>
 <p>Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="_blank">CasualCommunity</a></p>
 <h1><a class="anchor" id="autotoc_md2"></a>
+Documentation</h1>
+<p>The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a></p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Usage</h1>
 <p>bare-bones setup</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
@@ -93,6 +96,10 @@ Usage</h1>
 <div class="line">std::string text = memory.readString(address, 200);</div>
 <div class="line"><span class="comment">//write value 5 starting at given address</span></div>
 <div class="line">memory.write&lt;<span class="keywordtype">int</span>&gt;(address, 5);</div>
+</div><!-- fragment --><p>get address from static pointer + offsets</p>
+<div class="fragment"><div class="line">uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });</div>
+</div><!-- fragment --><p>get module base address</p>
+<div class="fragment"><div class="line">uintptr_t clientAddr = memory.getModule(L<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <div class="ttc" id="aclass_external_1_1_memory_html"><div class="ttname"><a href="class_external_1_1_memory.html">External::Memory</a></div><div class="ttdef"><b>Definition:</b> Memory.h:22</div></div>
