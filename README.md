@@ -12,7 +12,7 @@ The main set of documentation can be found <a href="https://casualcoder91.github
 
 ## Usage
 
-bare-bones setup
+### bare-bones setup
 
 ```cpp
 #include <iostream>
@@ -23,7 +23,7 @@ int main(){
 }
 ```
 
-read/write memory
+### read/write memory
 
 ```cpp
 //works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
@@ -39,14 +39,20 @@ std::string text = memory.readString(address, 200);
 memory.write<int>(address, 5);
 ```
 
-get address from static pointer + offsets
+### get address from static pointer + offsets
 
 ```cpp
 uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });
 ```
 
-get module base address
+### get module base address
 
 ```cpp
 uintptr_t clientAddr = memory.getModule(L"client.dll");
+```
+
+### AOB Scanner
+
+```cpp
+uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });
 ```
