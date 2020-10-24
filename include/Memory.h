@@ -2,7 +2,7 @@
  * The Memory class is a collection functions used for external memory hacking.
  *
  * @author CasualComunity: Alien, C3x0r, CasualGamer
- * @version 0.2 23.10.2020
+ * @version 0.1 23.10.2020
 */
 
 #pragma once
@@ -12,6 +12,13 @@
 #include<TlHelp32.h>
 
 namespace External {
+    /**
+     * Serves as communicator between your application and the games memory.
+     *
+     * @author CasualComunity: Alien, C3x0r, CasualGamer
+     * @version 0.1 23.10.2020
+     * @todo: optimize scanner speed, optional parameter with desiredAccess
+    */
     class Memory
     {
 

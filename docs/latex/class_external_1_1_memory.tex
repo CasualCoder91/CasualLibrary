@@ -1,0 +1,54 @@
+\hypertarget{class_external_1_1_memory}{}\doxysection{External\+::Memory Class Reference}
+\label{class_external_1_1_memory}\index{External::Memory@{External::Memory}}
+
+
+{\ttfamily \#include $<$Memory.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_aa1dc947d04cf99aa74763366b6514b2c}\label{class_external_1_1_memory_aa1dc947d04cf99aa74763366b6514b2c}} 
+{\bfseries Memory} (std\+::string proc)
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_ad9565e49277b117a34e02bb946cdef4d}\label{class_external_1_1_memory_ad9565e49277b117a34e02bb946cdef4d}} 
+{\footnotesize template$<$typename T $>$ }\\T {\bfseries read} (uintptr\+\_\+t add\+To\+Be\+Read)
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a068f99b98f17f8be80a0cf2c0af8ca9a}\label{class_external_1_1_memory_a068f99b98f17f8be80a0cf2c0af8ca9a}} 
+std\+::string {\bfseries read\+String} (uintptr\+\_\+t add\+To\+Be\+Read, size\+\_\+t size=0)
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a4843510cd335eb8a8c880bc90c4dc8c1}\label{class_external_1_1_memory_a4843510cd335eb8a8c880bc90c4dc8c1}} 
+{\footnotesize template$<$typename Z $>$ }\\Z {\bfseries write} (uintptr\+\_\+t add\+To\+Write, Z val\+To\+Write)
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a9310f0bf625e80be8b076128e885b3e9}\label{class_external_1_1_memory_a9310f0bf625e80be8b076128e885b3e9}} 
+D\+W\+O\+RD \mbox{\hyperlink{class_external_1_1_memory_a9310f0bf625e80be8b076128e885b3e9}{get\+Process\+ID}} ()
+\begin{DoxyCompactList}\small\item\em returns process id of the target process \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a5243e3825c3ec9da97f6d0c4c1d579f9}\label{class_external_1_1_memory_a5243e3825c3ec9da97f6d0c4c1d579f9}} 
+uintptr\+\_\+t \mbox{\hyperlink{class_external_1_1_memory_a5243e3825c3ec9da97f6d0c4c1d579f9}{get\+Module}} (const wchar\+\_\+t $\ast$mod\+Name)
+\begin{DoxyCompactList}\small\item\em returns the module base address of {\ttfamily mod\+Name} (example\+: \char`\"{}client.\+dll\char`\"{}) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a79d67848c0f68352a146fd9db3cc04e0}\label{class_external_1_1_memory_a79d67848c0f68352a146fd9db3cc04e0}} 
+uintptr\+\_\+t {\bfseries get\+Address} (uintptr\+\_\+t addr, std\+::vector$<$ uintptr\+\_\+t $>$ vect)
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_ac63147d983ebceaaf5340a7d878e51e5}\label{class_external_1_1_memory_ac63147d983ebceaaf5340a7d878e51e5}} 
+bool {\bfseries memory\+Compare} (const B\+Y\+TE $\ast$b\+Data, const B\+Y\+TE $\ast$b\+Mask, const char $\ast$sz\+Mask) noexcept
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a05c2e2c6ed5d6e82214dc03e0c9050e5}\label{class_external_1_1_memory_a05c2e2c6ed5d6e82214dc03e0c9050e5}} 
+uintptr\+\_\+t {\bfseries find\+Signature\+Address} (uintptr\+\_\+t start, size\+\_\+t size, const char $\ast$signature, const char $\ast$mask) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Serves as communicator between your application and the games memory.
+
+\begin{DoxyAuthor}{Author}
+Casual\+Comunity\+: Alien, C3x0r, Casual\+Gamer 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 23.\+10.\+2020 
+\end{DoxyVersion}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]\+: optimize scanner speed, optional parameter with desired\+Access \end{DoxyRefDesc}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/Memory.\+h\end{DoxyCompactItemize}
