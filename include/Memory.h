@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <TlHelp32.h>
+#include <iostream>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 6001)
@@ -56,16 +57,25 @@ namespace External {
         DWORD getProcessID(void) noexcept;
         /**@brief returns the module base address of \p modName (example: "client.dll")*/
         uintptr_t getModule(const std::string& modName) noexcept;
-        uintptr_t getAddress(const uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept;
-        bool memoryCompare(const BYTE* bData, const BYTE* bMask, const char* szMask) noexcept;
-        uintptr_t findSignatureAddress(const uintptr_t start, const size_t size, const char* signature, const char* mask) noexcept;
+        /**@brief returns the dynamic pointer from base pointer \p basePrt and \p offsets*/
+        uintptr_t getAddress(const uintptr_t basePrt, const std::vector<uintptr_t>& offsets) noexcept;
+        bool memoryCompare(const BYTE* bData, const std::vector<int>& signature) noexcept;
+        /**
+        @brief a basic signature scanner
+        @param start Address where to start scanning.
+        @param size Size of the area to search within.
+        @param signature Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
+        */
+        uintptr_t findSignatureAddress(const uintptr_t start, const size_t size, const std::vector<int>& signature) noexcept;
 
     private:
+        /** @brief handle of the target process */
         HANDLE handle;
         /** @brief ID of the target process */
         DWORD processID = 0;
         /**@brief initialize member variables.
         @param proc Name of the target process ("target.exe")
+        @param access Desired access right to the process
         @returns whether or not initialization was successful*/
         bool init(const std::string& proc, const DWORD access = PROCESS_ALL_ACCESS);
 

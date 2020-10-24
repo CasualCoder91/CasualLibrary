@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['getmodule_10',['getModule',['../class_external_1_1_memory.html#a5243e3825c3ec9da97f6d0c4c1d579f9',1,'External::Memory']]],
-  ['getprocessid_11',['getProcessID',['../class_external_1_1_memory.html#a9310f0bf625e80be8b076128e885b3e9',1,'External::Memory']]]
+  ['findsignatureaddress_10',['findSignatureAddress',['../class_external_1_1_memory.html#a7ab837e2327e8d0c60de1f1590c08663',1,'External::Memory']]]
 ];

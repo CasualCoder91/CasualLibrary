@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespace_external.html">External</a></li><li class="navelem"><a class="el" href="class_external_1_1_memory.html">Memory</a></li>  </ul>
+<li class="navelem"><b>External</b></li><li class="navelem"><a class="el" href="class_external_1_1_memory.html">Memory</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,44 +80,98 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa1dc947d04cf99aa74763366b6514b2c"><td class="memItemLeft" align="right" valign="top"><a id="aa1dc947d04cf99aa74763366b6514b2c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Memory</b> (std::string proc)</td></tr>
-<tr class="separator:aa1dc947d04cf99aa74763366b6514b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9565e49277b117a34e02bb946cdef4d"><td class="memTemplParams" colspan="2"><a id="ad9565e49277b117a34e02bb946cdef4d"></a>
+<tr class="memitem:a8545b1edd0944dfc67aa806edcea3345"><td class="memItemLeft" align="right" valign="top"><a id="a8545b1edd0944dfc67aa806edcea3345"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Memory</b> (const std::string &amp;proc)</td></tr>
+<tr class="separator:a8545b1edd0944dfc67aa806edcea3345"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f703faf01135065b2c59ad9dcd54f5e"><td class="memTemplParams" colspan="2"><a id="a0f703faf01135065b2c59ad9dcd54f5e"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad9565e49277b117a34e02bb946cdef4d"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>read</b> (uintptr_t addToBeRead)</td></tr>
-<tr class="separator:ad9565e49277b117a34e02bb946cdef4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a068f99b98f17f8be80a0cf2c0af8ca9a"><td class="memItemLeft" align="right" valign="top"><a id="a068f99b98f17f8be80a0cf2c0af8ca9a"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>readString</b> (uintptr_t addToBeRead, size_t size=0)</td></tr>
-<tr class="separator:a068f99b98f17f8be80a0cf2c0af8ca9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4843510cd335eb8a8c880bc90c4dc8c1"><td class="memTemplParams" colspan="2"><a id="a4843510cd335eb8a8c880bc90c4dc8c1"></a>
-template&lt;typename Z &gt; </td></tr>
-<tr class="memitem:a4843510cd335eb8a8c880bc90c4dc8c1"><td class="memTemplItemLeft" align="right" valign="top">Z&#160;</td><td class="memTemplItemRight" valign="bottom"><b>write</b> (uintptr_t addToWrite, Z valToWrite)</td></tr>
-<tr class="separator:a4843510cd335eb8a8c880bc90c4dc8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9310f0bf625e80be8b076128e885b3e9"><td class="memItemLeft" align="right" valign="top"><a id="a9310f0bf625e80be8b076128e885b3e9"></a>
-DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#a9310f0bf625e80be8b076128e885b3e9">getProcessID</a> ()</td></tr>
-<tr class="memdesc:a9310f0bf625e80be8b076128e885b3e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns process id of the target process <br /></td></tr>
-<tr class="separator:a9310f0bf625e80be8b076128e885b3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5243e3825c3ec9da97f6d0c4c1d579f9"><td class="memItemLeft" align="right" valign="top"><a id="a5243e3825c3ec9da97f6d0c4c1d579f9"></a>
-uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#a5243e3825c3ec9da97f6d0c4c1d579f9">getModule</a> (const wchar_t *modName)</td></tr>
-<tr class="memdesc:a5243e3825c3ec9da97f6d0c4c1d579f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the module base address of <code>modName</code> (example: "client.dll") <br /></td></tr>
-<tr class="separator:a5243e3825c3ec9da97f6d0c4c1d579f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79d67848c0f68352a146fd9db3cc04e0"><td class="memItemLeft" align="right" valign="top"><a id="a79d67848c0f68352a146fd9db3cc04e0"></a>
-uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><b>getAddress</b> (uintptr_t addr, std::vector&lt; uintptr_t &gt; vect)</td></tr>
-<tr class="separator:a79d67848c0f68352a146fd9db3cc04e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac63147d983ebceaaf5340a7d878e51e5"><td class="memItemLeft" align="right" valign="top"><a id="ac63147d983ebceaaf5340a7d878e51e5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>memoryCompare</b> (const BYTE *bData, const BYTE *bMask, const char *szMask) noexcept</td></tr>
-<tr class="separator:ac63147d983ebceaaf5340a7d878e51e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c2e2c6ed5d6e82214dc03e0c9050e5"><td class="memItemLeft" align="right" valign="top"><a id="a05c2e2c6ed5d6e82214dc03e0c9050e5"></a>
-uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><b>findSignatureAddress</b> (uintptr_t start, size_t size, const char *signature, const char *mask) noexcept</td></tr>
-<tr class="separator:a05c2e2c6ed5d6e82214dc03e0c9050e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f703faf01135065b2c59ad9dcd54f5e"><td class="memTemplItemLeft" align="right" valign="top">__forceinline T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>read</b> (const uintptr_t addToBeRead) noexcept</td></tr>
+<tr class="separator:a0f703faf01135065b2c59ad9dcd54f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac638b42b0ccd5b73e2b753c8df1919eb"><td class="memItemLeft" align="right" valign="top"><a id="ac638b42b0ccd5b73e2b753c8df1919eb"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>readString</b> (const uintptr_t addToBeRead, std::size_t size=0) noexcept</td></tr>
+<tr class="separator:ac638b42b0ccd5b73e2b753c8df1919eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77baccd12f02e4c2671651678ec3ac2b"><td class="memTemplParams" colspan="2"><a id="a77baccd12f02e4c2671651678ec3ac2b"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a77baccd12f02e4c2671651678ec3ac2b"><td class="memTemplItemLeft" align="right" valign="top">__forceinline T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>write</b> (const uintptr_t addToWrite, const T valToWrite) noexcept</td></tr>
+<tr class="separator:a77baccd12f02e4c2671651678ec3ac2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a064407e96945419f18b6de5445f0c938"><td class="memItemLeft" align="right" valign="top"><a id="a064407e96945419f18b6de5445f0c938"></a>
+DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#a064407e96945419f18b6de5445f0c938">getProcessID</a> (void) noexcept</td></tr>
+<tr class="memdesc:a064407e96945419f18b6de5445f0c938"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns process id of the target process <br /></td></tr>
+<tr class="separator:a064407e96945419f18b6de5445f0c938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa06a8b3085b510bf9e420691b4627b44"><td class="memItemLeft" align="right" valign="top"><a id="aa06a8b3085b510bf9e420691b4627b44"></a>
+uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#aa06a8b3085b510bf9e420691b4627b44">getModule</a> (const std::string &amp;modName) noexcept</td></tr>
+<tr class="memdesc:aa06a8b3085b510bf9e420691b4627b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the module base address of <code>modName</code> (example: "client.dll") <br /></td></tr>
+<tr class="separator:aa06a8b3085b510bf9e420691b4627b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a275a26881b14c7d280780b373f811230"><td class="memItemLeft" align="right" valign="top"><a id="a275a26881b14c7d280780b373f811230"></a>
+uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#a275a26881b14c7d280780b373f811230">getAddress</a> (const uintptr_t basePrt, const std::vector&lt; uintptr_t &gt; &amp;offsets) noexcept</td></tr>
+<tr class="memdesc:a275a26881b14c7d280780b373f811230"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the dynamic pointer from base pointer <code>basePrt</code> and <code>offsets</code> <br /></td></tr>
+<tr class="separator:a275a26881b14c7d280780b373f811230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf26112363f7afa37b1b1771bcd9bf08"><td class="memItemLeft" align="right" valign="top"><a id="acf26112363f7afa37b1b1771bcd9bf08"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>memoryCompare</b> (const BYTE *bData, const std::vector&lt; int &gt; &amp;signature) noexcept</td></tr>
+<tr class="separator:acf26112363f7afa37b1b1771bcd9bf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ab837e2327e8d0c60de1f1590c08663"><td class="memItemLeft" align="right" valign="top">uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_external_1_1_memory.html#a7ab837e2327e8d0c60de1f1590c08663">findSignatureAddress</a> (const uintptr_t start, const size_t size, const std::vector&lt; int &gt; &amp;signature) noexcept</td></tr>
+<tr class="memdesc:a7ab837e2327e8d0c60de1f1590c08663"><td class="mdescLeft">&#160;</td><td class="mdescRight">a basic signature scanner  <a href="class_external_1_1_memory.html#a7ab837e2327e8d0c60de1f1590c08663">More...</a><br /></td></tr>
+<tr class="separator:a7ab837e2327e8d0c60de1f1590c08663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Serves as communicator between your application and the games memory.</p>
 <dl class="section author"><dt>Author</dt><dd>CasualComunity: Alien, C3x0r, CasualGamer </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>0.1 23.10.2020 </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>: optimize scanner speed, optional parameter with desiredAccess </dd></dl>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7ab837e2327e8d0c60de1f1590c08663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ab837e2327e8d0c60de1f1590c08663">&#9670;&nbsp;</a></span>findSignatureAddress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uintptr_t External::Memory::findSignatureAddress </td>
+          <td>(</td>
+          <td class="paramtype">const uintptr_t&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>signature</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>a basic signature scanner </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start</td><td>Address where to start scanning. </td></tr>
+    <tr><td class="paramname">size</td><td>Size of the area to search within. </td></tr>
+    <tr><td class="paramname">signature</td><td>Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/<a class="el" href="_memory_8h_source.html">Memory.h</a></li>
 </ul>
 </div><!-- contents -->

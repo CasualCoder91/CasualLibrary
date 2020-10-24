@@ -1,5 +1,25 @@
 #include "Memory.h"
 
+//Returns the last Win32 error, in string format. Returns an empty string if there is no error.
+std::string GetLastErrorAsString()
+{
+    //Get the error message, if any.
+    DWORD errorMessageID = ::GetLastError();
+    if (errorMessageID == 0)
+        return std::string(); //No error message has been recorded
+
+    LPSTR messageBuffer = nullptr;
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+    std::string message(messageBuffer, size);
+
+    //Free the buffer.
+    LocalFree(messageBuffer);
+
+    return message;
+}
+
 namespace External {
 
     Memory::Memory(const std::string& proc) {
@@ -18,15 +38,16 @@ namespace External {
         if(oneWord)
             size = 200;
 
-        std::vector<char> chars;
-        chars.reserve(size);
+        std::vector<char> chars(size);
         
-        ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL);
+        if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL)) {
+            std::cout << GetLastErrorAsString() << std::endl;
+        }
 
         std::string name(chars.begin(), chars.end());
 
         if (oneWord)
-            return name.substr(0, name.find(" "));
+            return name.substr(0, name.find('\0'));
 
         return name;
     }
@@ -45,7 +66,8 @@ namespace External {
             }
 
         } while (Process32Next(hProcessId, &pEntry));
-        CloseHandle(hProcessId);
+        if(this->processID==0)
+            CloseHandle(hProcessId);
         return this->processID != 0;
     }
 
@@ -68,30 +90,35 @@ namespace External {
     }
 
     uintptr_t Memory::getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
-        for (unsigned int i = 0; i < vect.size(); i++){
-            ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0);
+        for (size_t i = 0; i < vect.size(); i++){
+            if (!ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0)) {
+                std::cout << GetLastErrorAsString() << std::endl;
+            }
             addr += vect[i];
         }
         return addr;
     }
 
-    bool Memory::memoryCompare(const BYTE* bData, const BYTE* bMask, const char* szMask) noexcept {
-        for (; *szMask; ++szMask, ++bData, ++bMask) {
-            if (*szMask == 'x' && *bData != *bMask) {
-                return false;
-            }
+    bool Memory::memoryCompare(const BYTE* bData, const std::vector<int>& signature) noexcept {
+        for (size_t i = 0; i < signature.size(); i++) {
+            if (signature[i] != -1 && signature[i] != bData[i])
+                break;
+            if (i + 1 == signature.size())
+                return true;
         }
-
-        return ((*szMask) == NULL);
+        return false;
     }
 
-    uintptr_t Memory::findSignatureAddress(const uintptr_t start, const size_t size, const char* signature, const char* mask) noexcept {
+    uintptr_t Memory::findSignatureAddress(const uintptr_t start, const size_t size, const std::vector<int>& signature) noexcept {
         BYTE* data = new BYTE[size];
 
-        ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr);
+        if (!ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr)) {
+            std::cout << GetLastErrorAsString() << std::endl;
+        }
 
         for (std::size_t i = 0; i < size; ++i){
-            if (memoryCompare((const BYTE*)(data + i), (const BYTE*)(signature), mask)) {
+            if (memoryCompare((const BYTE*)(data + i), signature)) {
+                delete[] data;
                 return start + i;
             }
         }
