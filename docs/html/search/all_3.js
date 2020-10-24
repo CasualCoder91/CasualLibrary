@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['helper_4',['Helper',['../class_helper.html',1,'']]]
+  ['memory_4',['Memory',['../class_external_1_1_memory.html',1,'External']]]
 ];
