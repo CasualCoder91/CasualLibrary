@@ -1,1 +1,34 @@
-\mbox{\hyperlink{class_helper}{Helper}} library for all things game hacking 
+\hypertarget{index_autotoc_md1}{}\doxysection{About The Project}\label{index_autotoc_md1}
+\mbox{\hyperlink{class_helper}{Helper}} library for external windows game hacking.
+
+Collaborative work provided by the \href{https://discord.gg/CRMQq4F}{\texttt{ Casual\+Community}}\hypertarget{index_autotoc_md2}{}\doxysection{Usage}\label{index_autotoc_md2}
+bare-\/bones setup
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "Memory.h"}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} main()\{}
+\DoxyCodeLine{    \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}} memory = \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}}(\textcolor{stringliteral}{"target.exe"});}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+read/write memory
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//works for all types including uintptr\_t, int, double etc. as well as custom structs and classes.}}
+\DoxyCodeLine{\textcolor{comment}{//does NOT work for arrays/vectors}}
+\DoxyCodeLine{uintptr\_t adress = 0x2240001C;}
+\DoxyCodeLine{\textcolor{comment}{// read integer stored at address}}
+\DoxyCodeLine{\textcolor{keywordtype}{int} test = memory.read<\textcolor{keywordtype}{int}>(address);}
+\DoxyCodeLine{\textcolor{comment}{// read one word}}
+\DoxyCodeLine{std::string word = memory.readString(address);}
+\DoxyCodeLine{\textcolor{comment}{//read 200 chars}}
+\DoxyCodeLine{std::string text = memory.readString(address, 200);}
+\DoxyCodeLine{\textcolor{comment}{//write value 5 starting at given address}}
+\DoxyCodeLine{memory.write<\textcolor{keywordtype}{int}>(address, 5);}
+\end{DoxyCode}
+ 
