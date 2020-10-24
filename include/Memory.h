@@ -1,7 +1,7 @@
 /**
  * The Memory class is a collection functions used for external memory hacking.
  *
- * @author CasualComunity: Alien, C3x0r, CasualGamer
+ * @author CasualCommunity: Alien, C3x0r, CasualGamer
  * @version 0.1 23.10.2020
 */
 
