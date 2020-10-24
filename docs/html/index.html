@@ -110,7 +110,7 @@ get address from static pointer + offsets</h2>
 <div class="fragment"><div class="line">uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 get module base address</h2>
-<div class="fragment"><div class="line">uintptr_t clientAddr = memory.getModule(L<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
+<div class="fragment"><div class="line">uintptr_t clientAddr = memory.getModule(<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
 AOB Scanner</h2>
 <div class="fragment"><div class="line">uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });</div>

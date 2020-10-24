@@ -54,7 +54,7 @@ uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });
 ### get module base address
 
 ```cpp
-uintptr_t clientAddr = memory.getModule(L"client.dll");
+uintptr_t clientAddr = memory.getModule("client.dll");
 ```
 
 ### AOB Scanner
