@@ -73,11 +73,18 @@ About The Project</h1>
 <p><a class="el" href="class_helper.html">Helper</a> library for external windows game hacking.</p>
 <p>Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="_blank">CasualCommunity</a></p>
 <h1><a class="anchor" id="autotoc_md2"></a>
+Installation</h1>
+<ol type="1">
+<li>Download current release from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a></li>
+<li>Extract *.h and *.cpp at appropriate location in your project directory.</li>
+<li>Include them into your project.</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Documentation</h1>
 <p>The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a></p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Usage</h1>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 bare-bones setup</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;Memory.h&quot;</span></div>
@@ -85,7 +92,7 @@ bare-bones setup</h2>
 <div class="line"><span class="keywordtype">int</span> main(){</div>
 <div class="line">    <a class="code" href="class_external_1_1_memory.html">External::Memory</a> memory = <a class="code" href="class_external_1_1_memory.html">External::Memory</a>(<span class="stringliteral">&quot;target.exe&quot;</span>);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
 read/write memory</h2>
 <div class="fragment"><div class="line"><span class="comment">//works for all types including uintptr_t, int, double etc. as well as custom structs and classes.</span></div>
 <div class="line"><span class="comment">//does NOT work for arrays/vectors</span></div>
@@ -98,13 +105,13 @@ read/write memory</h2>
 <div class="line">std::string text = memory.readString(address, 200);</div>
 <div class="line"><span class="comment">//write value 5 starting at given address</span></div>
 <div class="line">memory.write&lt;<span class="keywordtype">int</span>&gt;(address, 5);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
 get address from static pointer + offsets</h2>
 <div class="fragment"><div class="line">uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 get module base address</h2>
 <div class="fragment"><div class="line">uintptr_t clientAddr = memory.getModule(L<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
 AOB Scanner</h2>
 <div class="fragment"><div class="line">uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->

@@ -6,6 +6,12 @@ Helper library for external windows game hacking.
 
 Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="_blank">CasualCommunity</a>
 
+## Installation
+
+ 1. Download current release from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a>
+ 2. Extract *.h and *.cpp at appropriate location in your project directory.
+ 3. Include them into your project.
+
 ## Documentation
 
 The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a>
