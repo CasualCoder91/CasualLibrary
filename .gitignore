@@ -27,7 +27,6 @@
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
@@ -40,3 +39,4 @@ _ReSharper.*
 bin
 obj
 packages
+test/target/VS

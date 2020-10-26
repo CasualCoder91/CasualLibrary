@@ -34,15 +34,18 @@ The main set of documentation can be found \href{https://casualcoder91.github.io
 \DoxyCodeLine{\textcolor{comment}{//write value 5 starting at given address}}
 \DoxyCodeLine{memory.write<\textcolor{keywordtype}{int}>(address, 5);}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md7}{}\doxysubsection{get address from static pointer + offsets}\label{index_autotoc_md7}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{uintptr\_t healthAddr = memory.getAddress(0x2240001C, \{ 0x01,0x4E \});}
-\end{DoxyCode}
-\hypertarget{index_autotoc_md8}{}\doxysubsection{get module base address}\label{index_autotoc_md8}
+\hypertarget{index_autotoc_md7}{}\doxysubsection{get module base address}\label{index_autotoc_md7}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{uintptr\_t clientAddr = memory.getModule(\textcolor{stringliteral}{"client.dll"});}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md8}{}\doxysubsection{get address from static pointer + offsets}\label{index_autotoc_md8}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{uintptr\_t baseAddr = memory.getModule(\textcolor{stringliteral}{"ZW64.exe"});}
+\DoxyCodeLine{uintptr\_t healthAddr = memory.getAddress(baseAddr+0x00003648, \{ 0x40,0xE4 \});}
 \end{DoxyCode}
 \hypertarget{index_autotoc_md9}{}\doxysubsection{A\+O\+B Scanner}\label{index_autotoc_md9}
 

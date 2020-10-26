@@ -18,6 +18,8 @@
 #include <TlHelp32.h>
 #include <iostream>
 
+#include "Helper.h"
+
 #ifdef _MSC_VER
 #pragma warning(disable : 6001)
 #endif

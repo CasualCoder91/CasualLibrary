@@ -24,7 +24,11 @@ namespace External {
 
     Memory::Memory(const std::string& proc) {
         if (!init(proc)) {
-            throw "Could not init Memory object.";
+            std::cerr << "Could not init Memory object.\n";
+            std::cerr << GetLastErrorAsString() << std::endl;
+        }
+        else if (!Helper::matchingBuilt(this->handle)) {
+            std::cerr << "x64/x86-bit missmatch! Make sure to match the target." << std::endl;
         };
     }
 
@@ -42,7 +46,7 @@ namespace External {
         
         if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL)) {
             std::cout << GetLastErrorAsString() << std::endl;
-        }
+        };
 
         std::string name(chars.begin(), chars.end());
 
@@ -63,6 +67,7 @@ namespace External {
                 this->processID = pEntry.th32ProcessID;
                 CloseHandle(hProcessId);
                 this->handle = OpenProcess(access, false, this->processID);
+                return true;
             }
 
         } while (Process32Next(hProcessId, &pEntry));

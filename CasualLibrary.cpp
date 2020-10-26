@@ -2,27 +2,31 @@
 
 #include "Memory.h"
 
+inline const char* const BoolToString(bool b){
+    return b ? "OK" : "Failed";
+}
+
+
 int main(){
-    std::cout << "Testing 1,2,3\n";
+    std::cout << "Running tests ...\n\n";
 
-    External::Memory memory = External::Memory("mspaint.exe");
-    uintptr_t adressToRead = 0x2240001C;
-    uintptr_t test = memory.read<uintptr_t>(adressToRead);
-    std::cout << std::hex << adressToRead << std::endl; 
-    
-    uintptr_t modulePtr = memory.getModule("mspaint.exe");
-    uintptr_t namePtr = modulePtr + 0xDD075;
-    uintptr_t intPtr = modulePtr + 0xDD5C0;
+    External::Memory memory = External::Memory("ZW64.exe");
+    uintptr_t modulePtr = memory.getModule("ZW64.exe");
 
-    std::string word = memory.readString(namePtr);
-    std::string text = memory.readString(namePtr, 200);
-    int number = memory.read<int>(intPtr);
+    uintptr_t namePtr = memory.getAddress(modulePtr + 0x00003648, { 0x40 });
 
-    std::cout << "Word at location: " << word << std::endl;
-    std::cout << "String at location: " << text << std::endl;
-    std::cout << "Int at location: " << number << std::endl;
+    std::cout << "Status readString(addToBeRead):       ";
+    std::cout << BoolToString(memory.readString(namePtr) == "CasualGamer") << std::endl;
 
-    uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });
-    std::cout << "Scanned Location: " << std::hex << address << std::endl;
+    std::cout << "Status readString(addToBeRead, size): ";
+    std::cout << BoolToString(memory.readString(namePtr, 5) == "Casua") << std::endl;
+
+    std::cout << "Status memory.read<T>(addToBeRead):   ";
+    std::cout << BoolToString(memory.read<int>(namePtr) == 1970495811) << std::endl;
+
+    uintptr_t address = memory.findSignatureAddress(0x7FFA6E0186A0, 1000, { -1, 0x13, -1, 0xC0, -1, 0x8B, 0x5C, 0x24, 0x30 });
+    std::cout << "Status findSignatureAddress(...):     ";
+    std::cout << BoolToString(address == 0x7ffa6e0188d0) << std::endl;
+
     std::cin.get();
 }

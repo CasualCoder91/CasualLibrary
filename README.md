@@ -45,16 +45,19 @@ std::string text = memory.readString(address, 200);
 memory.write<int>(address, 5);
 ```
 
-### get address from static pointer + offsets
-
-```cpp
-uintptr_t healthAddr = memory.getAddress(0x2240001C, { 0x01,0x4E });
-```
-
 ### get module base address
 
 ```cpp
 uintptr_t clientAddr = memory.getModule("client.dll");
+```
+
+### get address from static pointer + offsets
+
+![Static Pointer in CE](docs/img/getAddress.png)
+
+```cpp
+uintptr_t baseAddr = memory.getModule("ZW64.exe");
+uintptr_t healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
 ```
 
 ### AOB Scanner
