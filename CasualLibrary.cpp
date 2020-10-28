@@ -24,9 +24,9 @@ int main(){
     std::cout << "Status memory.read<T>(addToBeRead):   ";
     std::cout << BoolToString(memory.read<int>(namePtr) == 1970495811) << std::endl;
 
-    uintptr_t address = memory.findSignatureAddress(0x7FFA6E0186A0, 1000, { -1, 0x13, -1, 0xC0, -1, 0x8B, 0x5C, 0x24, 0x30 });
+    uintptr_t address = memory.findSignatureAddress(modulePtr, 100, { 0xBA, -1, -1, -1, -1, 0xCD });
     std::cout << "Status findSignatureAddress(...):     ";
-    std::cout << BoolToString(address == 0x7ffa6e0188d0) << std::endl;
+    std::cout << BoolToString(address) << std::endl;
 
     std::cin.get();
 }
