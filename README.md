@@ -34,7 +34,7 @@ int main(){
 ```cpp
 //works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
 //does NOT work for arrays/vectors
-uintptr_t adress = 0x2240001C;
+uintptr_t address = 0x2240001C;
 // read integer stored at address
 int test = memory.read<int>(address);
 // read one word
