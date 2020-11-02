@@ -23,6 +23,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable : 6001)
 #endif
+#include <Address.h>
 
 namespace External {
     /**
@@ -82,4 +83,27 @@ namespace External {
         bool init(const std::string& proc, const DWORD access = PROCESS_ALL_ACCESS);
 
     };
+}
+
+namespace Internal
+{
+    namespace Memory
+    {
+        Address getModule(const char* mod, const char* proc = nullptr);
+        Address findSignature(uintptr_t modAddr, const char* sig, uint32_t range = 0);
+        Address findModuleSignature(const char* mod, const char* sig);
+        std::vector<int> patternToBytes(const char* pattern);
+
+        template<typename T>
+        T getVirtualFunction(void* baseClass, uint32_t index)
+        {
+            return (*static_cast<T**>(baseClass))[index];
+        }
+
+        template<typename T, typename ... Args>
+        T callVirtualFunction(void* baseClass, uint32_t index, Args... args)
+        {
+            return getVirtualFunction<T(__thiscall*)(void*, Args...)>(baseClass, index)(baseClass, args...);
+        }
+    }
 }

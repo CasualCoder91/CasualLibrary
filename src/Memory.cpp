@@ -1,5 +1,7 @@
 #include "Memory.h"
 
+#include <algorithm>
+
 //Returns the last Win32 error, in string format. Returns an empty string if there is no error.
 std::string GetLastErrorAsString()
 {
@@ -131,5 +133,93 @@ namespace External {
         delete[] data;
 
         return NULL;
+    }
+}
+
+namespace Internal
+{
+    namespace Memory
+    {
+        Address getModule(const char* mod, const char* proc)
+        {
+            MODULEENTRY32 modEntry{sizeof(MODULEENTRY32)};
+            const HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, 0);
+
+            if (Module32First(snapshot, &modEntry))
+            {
+                do
+                {
+                    if (!_stricmp(mod, modEntry.szModule))
+                    {
+                        CloseHandle(snapshot);
+                        return reinterpret_cast<uintptr_t>(modEntry.hModule);
+                    }
+                } while (Module32Next(snapshot, &modEntry));
+            }
+
+            return nullptr;
+        }
+
+        Address findSignature(uintptr_t modAddr, const char* sig, uint32_t range)
+        {
+            uint8_t* const scanBytes = reinterpret_cast<uint8_t*>(modAddr);
+            std::vector<int> patternBytes = patternToBytes(sig);
+            const size_t s = patternBytes.size();
+            int* const data = patternBytes.data();
+
+            for (auto i = 0u; i < range - s; ++i)
+            {
+                bool found = true;
+
+                for (auto j = 0u; j < s; ++j)
+                {
+                    if (scanBytes[i + j] != data[j] && data[j] != -1)
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                    return &scanBytes[i];
+            }
+            return nullptr;
+        }
+
+        Address findModuleSignature(const char* mod, const char* sig)
+        {
+            const uintptr_t moduleHandle = getModule(mod).get();
+            if (mod)
+            {
+               const PIMAGE_DOS_HEADER idh = reinterpret_cast<PIMAGE_DOS_HEADER>(moduleHandle);
+               const PIMAGE_NT_HEADERS inh = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<uint8_t*>(moduleHandle) + idh->e_lfanew);
+               return findSignature(moduleHandle, sig, inh->OptionalHeader.SizeOfImage);
+            }
+            return nullptr;
+        }
+
+        std::vector<int> patternToBytes(const char* pattern)
+        {
+            std::vector<int> bytes{};
+            char* const start = const_cast<char*>(pattern);
+            char* const end = const_cast<char*>(pattern) + strlen(pattern);
+
+            for (char* current = start; current < end; ++current)
+            {
+                if (*current == '?')
+                {
+                    current++;
+
+                    if (*current == '?')
+                        current++;
+
+                    bytes.push_back(-1);
+                }
+                else
+                {
+                    bytes.push_back(static_cast<int>(strtoul(current, &current, 16)));
+                }
+            }
+            return bytes;
+        }
     }
 }

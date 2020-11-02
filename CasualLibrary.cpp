@@ -28,5 +28,8 @@ int main(){
     std::cout << "Status findSignatureAddress(...):     ";
     std::cout << BoolToString(address) << std::endl;
 
+    // EXAMPLE FOR FINDING SIGNATURE OF D3D9 DEVICE:
+    // uint8_t* address = **reinterpret_cast<IDirect3DDevice9***>(Internal::Memory::findModuleSignature("shaderapidx9.dll", "A1 ? ? ? ? 50 8B 08 FF 51 0C").addOffset(1).get<uint8_t*>());
+
     std::cin.get();
 }
