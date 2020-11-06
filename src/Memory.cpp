@@ -24,8 +24,13 @@ std::string getLastErrorAsString()
 
 std::vector<int> patternToBytes(const char* pattern) {
     std::vector<int> bytes{};
-    char* const start = const_cast<char*>(pattern);
-    char* const end = const_cast<char*>(pattern) + strlen(pattern);
+    
+    bytes.reserve(strlen(pattern));
+            
+    std::string patternString(pattern);
+            
+    char* const start = &patternString[0];
+    char* const end = &patternString[strlen(pattern)];
 
     for (char* current = start; current < end; ++current) {
         if (*current == '?') {
