@@ -34,8 +34,8 @@ namespace External {
      * Serves as communicator between your application and the games memory.
      *
      * @author CasualComunity: Alien, C3x0r, CasualGamer
-     * @version 0.1 23.10.2020
-     * @todo: optimize scanner speed, optional parameter with desiredAccess
+     * @version 0.1.2 06.11.2020
+     * @todo: optimize scanner speed, optional parameter with desiredAccess, memory checks
     */
     class Memory
     {
@@ -103,6 +103,13 @@ namespace External {
 
 namespace Internal
 {
+    /**
+     * Serves as communicator between injected dll and the games memory.
+     *
+     * @author CasualComunity: tomsa, CasualGamer
+     * @version 0.2 06.11.2020
+     * @todo: optimize scanner speed, memory checks
+    */
     namespace Memory
     {
         template<typename T> 
