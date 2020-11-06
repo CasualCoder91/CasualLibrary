@@ -162,7 +162,7 @@ namespace Internal
 
         Address findSignature(uintptr_t modAddr, const char* sig, uint32_t range)
         {
-            uint8_t* const scanBytes = reinterpret_cast<uint8_t*>(modAddr);
+            const uint8_t* scanBytes = reinterpret_cast<uint8_t*>(modAddr);
             std::vector<int> patternBytes = patternToBytes(sig);
             const size_t s = patternBytes.size();
             int* const data = patternBytes.data();
@@ -200,8 +200,12 @@ namespace Internal
         std::vector<int> patternToBytes(const char* pattern)
         {
             std::vector<int> bytes{};
-            char* const start = const_cast<char*>(pattern);
-            char* const end = const_cast<char*>(pattern) + strlen(pattern);
+            bytes.reserve(strlen(pattern));
+            
+            std::string patternString(pattern);
+            
+            char* const start = &patternString[0];
+            char* const end = &patternString[strlen(pattern)];
 
             for (char* current = start; current < end; ++current)
             {
