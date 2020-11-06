@@ -3,7 +3,7 @@
 #include <algorithm>
 
 //Returns the last Win32 error, in string format. Returns an empty string if there is no error.
-std::string GetLastErrorAsString()
+std::string getLastErrorAsString()
 {
     //Get the error message, if any.
     DWORD errorMessageID = ::GetLastError();
@@ -22,12 +22,33 @@ std::string GetLastErrorAsString()
     return message;
 }
 
+std::vector<int> patternToBytes(const char* pattern) {
+    std::vector<int> bytes{};
+    char* const start = const_cast<char*>(pattern);
+    char* const end = const_cast<char*>(pattern) + strlen(pattern);
+
+    for (char* current = start; current < end; ++current) {
+        if (*current == '?') {
+            current++;
+
+            if (*current == '?')
+                current++;
+
+            bytes.push_back(-1);
+        }
+        else {
+            bytes.push_back(static_cast<int>(strtoul(current, &current, 16)));
+        }
+    }
+    return bytes;
+}
+
 namespace External {
 
-    Memory::Memory(const std::string& proc) {
+    Memory::Memory(const char* proc) {
         if (!init(proc)) {
             std::cerr << "Could not init Memory object.\n";
-            std::cerr << GetLastErrorAsString() << std::endl;
+            std::cerr << getLastErrorAsString() << std::endl;
         }
         else if (!Helper::matchingBuilt(this->handle)) {
             std::cerr << "x64/x86-bit missmatch! Make sure to match the target." << std::endl;
@@ -47,7 +68,7 @@ namespace External {
         std::vector<char> chars(size);
         
         if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL)) {
-            std::cout << GetLastErrorAsString() << std::endl;
+            std::cout << getLastErrorAsString() << std::endl;
         };
 
         std::string name(chars.begin(), chars.end());
@@ -57,15 +78,18 @@ namespace External {
 
         return name;
     }
+    std::string Memory::readString(const Address addToBeRead, std::size_t size) noexcept{
+        return readString(addToBeRead.get(), size);
+    }
 
-    bool Memory::init(const std::string& proc, const DWORD access) {
+    bool Memory::init(const char* proc, const DWORD access) {
         HANDLE hProcessId = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
         this->processID = 0;
         PROCESSENTRY32 pEntry;
         pEntry.dwSize = sizeof(pEntry);
 
         do{
-            if (!_stricmp(pEntry.szExeFile, proc.c_str())){
+            if (!strcmp((char*)pEntry.szExeFile, proc)){
                 this->processID = pEntry.th32ProcessID;
                 CloseHandle(hProcessId);
                 this->handle = OpenProcess(access, false, this->processID);
@@ -82,28 +106,31 @@ namespace External {
         return this->processID;
     }
 
-    uintptr_t Memory::getModule(const std::string& modName) noexcept {
+    Address Memory::getModule(const char* modName) noexcept {
         HANDLE hModule = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, this->processID);
         MODULEENTRY32 mEntry;
         mEntry.dwSize = sizeof(mEntry);
 
         do{
-            if (!_stricmp(mEntry.szModule, modName.c_str())){
+            if (!strcmp(modName, (char*)mEntry.szModule)){
                 CloseHandle(hModule);
-                return (uintptr_t)(mEntry.hModule);
+                return reinterpret_cast<uintptr_t>(mEntry.hModule);
             }
         } while (Module32Next(hModule, &mEntry));
-        return 0;
+        return nullptr;
     }
 
-    uintptr_t Memory::getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
+    Address Memory::getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
         for (size_t i = 0; i < vect.size(); i++){
             if (!ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0)) {
-                std::cout << GetLastErrorAsString() << std::endl;
+                std::cout << getLastErrorAsString() << std::endl;
             }
             addr += vect[i];
         }
         return addr;
+    }
+    Address Memory::getAddress(Address addr, const std::vector<uintptr_t>& vect) noexcept {
+        return getAddress(addr.get(), vect);
     }
 
     bool Memory::memoryCompare(const BYTE* bData, const std::vector<int>& signature) noexcept {
@@ -116,15 +143,16 @@ namespace External {
         return false;
     }
 
-    uintptr_t Memory::findSignatureAddress(const uintptr_t start, const size_t size, const std::vector<int>& signature) noexcept {
+    Address Memory::findSignature(const uintptr_t start, const size_t size, const char* signature) noexcept {
+        std::vector<int> patternBytes = patternToBytes(signature);
         BYTE* data = new BYTE[size];
 
         if (!ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr)) {
-            std::cout << GetLastErrorAsString() << std::endl;
+            std::cout << getLastErrorAsString() << std::endl;
         }
 
         for (std::size_t i = 0; i < size; ++i){
-            if (memoryCompare((const BYTE*)(data + i), signature)) {
+            if (memoryCompare((const BYTE*)(data + i), patternBytes)) {
                 delete[] data;
                 return start + i;
             }
@@ -132,25 +160,22 @@ namespace External {
 
         delete[] data;
 
-        return NULL;
+        return nullptr;
+    }
+    Address Memory::findSignature(const Address start, const size_t size, const char* sig) noexcept{
+        return findSignature(start.get(), size, sig);
     }
 }
 
-namespace Internal
-{
-    namespace Memory
-    {
-        Address getModule(const char* mod, const char* proc)
-        {
+namespace Internal{
+    namespace Memory{
+        Address getModule(const char* mod) noexcept {
             MODULEENTRY32 modEntry{sizeof(MODULEENTRY32)};
             const HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, 0);
 
-            if (Module32First(snapshot, &modEntry))
-            {
-                do
-                {
-                    if (!_stricmp(mod, modEntry.szModule))
-                    {
+            if (Module32First(snapshot, &modEntry)){
+                do{
+                    if (!strcmp(mod, (char*)modEntry.szModule)){
                         CloseHandle(snapshot);
                         return reinterpret_cast<uintptr_t>(modEntry.hModule);
                     }
@@ -160,19 +185,27 @@ namespace Internal
             return nullptr;
         }
 
-        Address findSignature(uintptr_t modAddr, const char* sig, uint32_t range)
-        {
+        Address getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
+            for (size_t i = 0; i < vect.size(); i++) {
+                addr = read<uintptr_t>(addr);
+                addr += vect[i];
+            }
+            return addr;
+        }
+        Address getAddress(Address basePrt, const std::vector<uintptr_t>& offsets) noexcept{
+            return getAddress(basePrt.get(), offsets);
+        }
+
+        Address findSignature(uintptr_t modAddr, const char* sig, size_t size) noexcept {
             uint8_t* const scanBytes = reinterpret_cast<uint8_t*>(modAddr);
             std::vector<int> patternBytes = patternToBytes(sig);
             const size_t s = patternBytes.size();
             int* const data = patternBytes.data();
 
-            for (auto i = 0u; i < range - s; ++i)
-            {
+            for (size_t i = 0u; i < size - s; ++i){
                 bool found = true;
 
-                for (auto j = 0u; j < s; ++j)
-                {
+                for (size_t j = 0u; j < s; ++j){
                     if (scanBytes[i + j] != data[j] && data[j] != -1)
                     {
                         found = false;
@@ -184,12 +217,13 @@ namespace Internal
             }
             return nullptr;
         }
+        Address findSignature(Address modAddr, const char* sig, size_t size) noexcept{
+            return findSignature(modAddr.get(), sig, size);
+        }
 
-        Address findModuleSignature(const char* mod, const char* sig)
-        {
+        Address findModuleSignature(const char* mod, const char* sig) noexcept {
             const uintptr_t moduleHandle = getModule(mod).get();
-            if (mod)
-            {
+            if (mod){
                const PIMAGE_DOS_HEADER idh = reinterpret_cast<PIMAGE_DOS_HEADER>(moduleHandle);
                const PIMAGE_NT_HEADERS inh = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<uint8_t*>(moduleHandle) + idh->e_lfanew);
                return findSignature(moduleHandle, sig, inh->OptionalHeader.SizeOfImage);
@@ -197,29 +231,5 @@ namespace Internal
             return nullptr;
         }
 
-        std::vector<int> patternToBytes(const char* pattern)
-        {
-            std::vector<int> bytes{};
-            char* const start = const_cast<char*>(pattern);
-            char* const end = const_cast<char*>(pattern) + strlen(pattern);
-
-            for (char* current = start; current < end; ++current)
-            {
-                if (*current == '?')
-                {
-                    current++;
-
-                    if (*current == '?')
-                        current++;
-
-                    bytes.push_back(-1);
-                }
-                else
-                {
-                    bytes.push_back(static_cast<int>(strtoul(current, &current, 16)));
-                }
-            }
-            return bytes;
-        }
     }
 }
