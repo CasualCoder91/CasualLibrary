@@ -45,7 +45,7 @@ std::vector<int> patternToBytes(const char* pattern) {
 
 namespace External {
 
-    Memory::Memory(const char* proc) {
+    Memory::Memory(const char* proc, bool debug) {
         if (!init(proc)) {
             std::cerr << "Could not init Memory object.\n";
             std::cerr << getLastErrorAsString() << std::endl;
@@ -53,6 +53,7 @@ namespace External {
         else if (!Helper::matchingBuilt(this->handle)) {
             std::cerr << "x64/x86-bit missmatch! Make sure to match the target." << std::endl;
         };
+        this->debug = debug;
     }
 
     Memory::~Memory(void) noexcept {
@@ -67,7 +68,7 @@ namespace External {
 
         std::vector<char> chars(size);
         
-        if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL)) {
+        if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL) && debug) {
             std::cout << getLastErrorAsString() << std::endl;
         };
 
@@ -122,7 +123,7 @@ namespace External {
 
     Address Memory::getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
         for (size_t i = 0; i < vect.size(); i++){
-            if (!ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0)) {
+            if (!ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0) && debug) {
                 std::cout << getLastErrorAsString() << std::endl;
             }
             addr += vect[i];
@@ -143,11 +144,11 @@ namespace External {
         return false;
     }
 
-    Address Memory::findSignature(const uintptr_t start, const size_t size, const char* signature) noexcept {
+    Address Memory::findSignature(const uintptr_t start, const char* signature, const size_t size) noexcept {
         std::vector<int> patternBytes = patternToBytes(signature);
         BYTE* data = new BYTE[size];
 
-        if (!ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr)) {
+        if (!ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr) && debug) {
             std::cout << getLastErrorAsString() << std::endl;
         }
 
@@ -162,8 +163,8 @@ namespace External {
 
         return nullptr;
     }
-    Address Memory::findSignature(const Address start, const size_t size, const char* sig) noexcept{
-        return findSignature(start.get(), size, sig);
+    Address Memory::findSignature(const Address start, const char* sig, const size_t size) noexcept{
+        return findSignature(start.get(), sig, size);
     }
 }
 

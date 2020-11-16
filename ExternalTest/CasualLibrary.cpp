@@ -10,8 +10,8 @@ inline const char* const BoolToString(bool b){
 int main(){
     std::cout << "Running tests ...\n\n";
 
-    External::Memory memory = External::Memory("ZW64.exe");
-    Address modulePtr = memory.getModule("ZW64.exe");
+    External::Memory memory = External::Memory("ZombieWar.exe");
+    Address modulePtr = memory.getModule("ZombieWar.exe");
 
     Address namePtr = memory.getAddress(modulePtr+0x00003648, { 0x40 }).get();
 

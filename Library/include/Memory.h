@@ -35,13 +35,13 @@ namespace External {
      *
      * @author CasualComunity: Alien, C3x0r, CasualGamer
      * @version 0.1.2 06.11.2020
-     * @todo: optimize scanner speed, optional parameter with desiredAccess, memory checks
+     * @todo: optimize scanner speed, optional parameter with desiredAccess, memory checks, add readString(...) to internal
     */
     class Memory
     {
 
     public:
-        Memory(const char* proc);
+        Memory(const char* proc,bool debug = false);
             
         ~Memory(void) noexcept;
 
@@ -84,14 +84,16 @@ namespace External {
         @param size Size of the area to search within.
         @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
         */
-        Address findSignature(const uintptr_t start, const size_t size, const char* sig) noexcept;
-        Address findSignature(const Address start, const size_t size, const char* sig) noexcept;
+        Address findSignature(const uintptr_t start, const char* sig, const size_t size) noexcept;
+        Address findSignature(const Address start, const char* sig, const size_t size) noexcept;
 
     private:
         /** @brief handle of the target process */
         HANDLE handle;
         /** @brief ID of the target process */
         DWORD processID = 0;
+        /** @brief debug flag. Set true for debug messages*/
+        bool debug = false;
         /**@brief initialize member variables.
         @param proc Name of the target process ("target.exe")
         @param access Desired access right to the process
@@ -115,6 +117,11 @@ namespace Internal
         template<typename T> 
         __forceinline T read(uintptr_t address) {
             return *(T*)address;
+        }
+
+        template <typename T>
+        __forceinline T read(const Address addToBeRead) noexcept {
+            return *(T*)addToBeRead.get();
         }
 
         template<typename T> 
@@ -142,7 +149,7 @@ namespace Internal
         @param size Size of the area to search within.
         @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
         */
-        Address findSignature(Address start, const char* sig, size_t size = 0) noexcept;
+        Address findSignature(const Address start, const char* sig, size_t size = 0) noexcept;
         Address findModuleSignature(const char* mod, const char* sig) noexcept;
 
         template<typename T>
