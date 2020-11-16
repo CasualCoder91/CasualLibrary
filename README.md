@@ -53,7 +53,7 @@ uintptr_t clientAddr = memory.getModule("client.dll");
 
 ### get address from static pointer + offsets
 
-![Static Pointer in CE](docs/img/getAddress.png)
+![Static Pointer in CE](Library/docs/img/getAddress.png)
 
 ```cpp
 uintptr_t baseAddr = memory.getModule("ZW64.exe");
@@ -63,5 +63,5 @@ uintptr_t healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
 ### AOB Scanner
 
 ```cpp
-uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });
+uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
 ```
