@@ -15,7 +15,7 @@ public:
     {
     }
 
-    explicit operator uintptr_t() const
+    operator uintptr_t() const //NOT explicit
     {
         return ptr;
     }
@@ -47,15 +47,15 @@ public:
         return *this;
     }
 
-    Address operator+(const Address& b) {
-        Address address = Address(this->ptr+b.get());
-        return address;
-    }
+    //Address operator+(const Address& b) {
+    //    Address address = Address(this->ptr+b.get());
+    //    return address;
+    //}
 
-    Address operator+(const uintptr_t b) {
-        Address address = Address(this->ptr + b);
-        return address;
-    }
+    //Address operator+(const uintptr_t b) {
+    //    Address address = Address(this->ptr + b);
+    //    return address;
+    //}
 
 protected:
     uintptr_t ptr;
