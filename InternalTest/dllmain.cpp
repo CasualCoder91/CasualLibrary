@@ -45,7 +45,7 @@ DWORD WINAPI Menue() {
     fclose(fp);
     FreeConsole();
     CreateThread(0, 0, EjectThread, 0, 0, 0);
-    int i = 0;
+
     return 0;
 }
 

@@ -20,7 +20,7 @@ The main set of documentation can be found <a href="https://casualcoder91.github
 
 ### bare-bones setup
 
-### external
+#### external
 
 ```cpp
 #include <iostream>
@@ -28,10 +28,11 @@ The main set of documentation can be found <a href="https://casualcoder91.github
 
 int main(){
     External::Memory memory = External::Memory("target.exe");
+    External::Memory memoryDebug = External::Memory("target.exe", true); //use for debug messages
 }
 ```
 
-### internal
+#### internal
 
 <details>
   <summary>Sample dll including the library</summary>
@@ -65,7 +66,6 @@ int main(){
       fclose(fp);
       FreeConsole();
       CreateThread(0, 0, EjectThread, 0, 0, 0);
-      int i = 0;
       return 0;
   }
 
@@ -93,6 +93,8 @@ int main(){
 
 ### read/write memory
 
+#### external
+
 ```cpp
 //works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
 //does NOT work for arrays/vectors
@@ -105,6 +107,18 @@ std::string word = memory.readString(address);
 std::string text = memory.readString(address, 200);
 //write value 5 starting at given address
 memory.write<int>(address, 5);
+```
+
+#### internal
+
+```cpp
+//works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
+//does NOT work for arrays/vectors
+uintptr_t address = 0x2240001C;
+// read integer stored at address
+int test = Internal::Memory::read<int>(address);
+//write value 5 starting at given address
+Internal::Memory::write<int>(address, 5);
 ```
 
 ### get module base address
