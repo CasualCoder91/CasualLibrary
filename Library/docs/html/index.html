@@ -68,7 +68,8 @@ $(function() {
 <div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
+<div class="textblock"><p>Sample dll including the library</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
 About The Project</h1>
 <p><a class="el" href="class_helper.html">Helper</a> library for external windows game hacking.</p>
 <p>Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="_blank">CasualCommunity</a></p>
@@ -86,17 +87,75 @@ Documentation</h1>
 Usage</h1>
 <h2><a class="anchor" id="autotoc_md5"></a>
 bare-bones setup</h2>
+<h3><a class="anchor" id="autotoc_md6"></a>
+external</h3>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;Memory.h&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main(){</div>
 <div class="line">    <a class="code" href="class_external_1_1_memory.html">External::Memory</a> memory = <a class="code" href="class_external_1_1_memory.html">External::Memory</a>(<span class="stringliteral">&quot;target.exe&quot;</span>);</div>
+<div class="line">    <a class="code" href="class_external_1_1_memory.html">External::Memory</a> memoryDebug = <a class="code" href="class_external_1_1_memory.html">External::Memory</a>(<span class="stringliteral">&quot;target.exe&quot;</span>, <span class="keyword">true</span>); <span class="comment">//use for debug messages</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md7"></a>
+internal</h3>
+<p>&lt;details&gt;</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;Memory.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line">HMODULE myhModule;</div>
+<div class="line"> </div>
+<div class="line">DWORD __stdcall EjectThread(LPVOID lpParameter) {</div>
+<div class="line">    Sleep(100);</div>
+<div class="line">    FreeLibraryAndExitThread(myhModule, 0);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line">DWORD WINAPI Menue() {</div>
+<div class="line">    AllocConsole();</div>
+<div class="line">    FILE* fp;</div>
+<div class="line">    freopen_s(&amp;fp, <span class="stringliteral">&quot;CONOUT$&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>, stdout); <span class="comment">// output only</span></div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Running tests ...\n\n&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//add Code here</span></div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">while</span> (1) {</div>
+<div class="line">        Sleep(100);</div>
+<div class="line">        <span class="keywordflow">if</span> (GetAsyncKeyState(VK_NUMPAD0))</div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">    }</div>
+<div class="line">    fclose(fp);</div>
+<div class="line">    FreeConsole();</div>
+<div class="line">    CreateThread(0, 0, EjectThread, 0, 0, 0);</div>
+<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">BOOL APIENTRY DllMain(HMODULE hModule,</div>
+<div class="line">    DWORD  ul_reason_for_call,</div>
+<div class="line">    LPVOID lpReserved</div>
+<div class="line">    )</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">switch</span> (ul_reason_for_call)</div>
+<div class="line">    {</div>
+<div class="line">    <span class="keywordflow">case</span> DLL_PROCESS_ATTACH:</div>
+<div class="line">        myhModule = hModule;</div>
+<div class="line">        CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Menue, NULL, 0, NULL);</div>
+<div class="line">    <span class="keywordflow">case</span> DLL_THREAD_ATTACH:</div>
+<div class="line">    <span class="keywordflow">case</span> DLL_THREAD_DETACH:</div>
+<div class="line">    <span class="keywordflow">case</span> DLL_PROCESS_DETACH:</div>
+<div class="line">        <span class="keywordflow">break</span>;</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">return</span> TRUE;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>&lt;/details&gt;</p>
+<h2><a class="anchor" id="autotoc_md8"></a>
 read/write memory</h2>
+<h3><a class="anchor" id="autotoc_md9"></a>
+external</h3>
 <div class="fragment"><div class="line"><span class="comment">//works for all types including uintptr_t, int, double etc. as well as custom structs and classes.</span></div>
 <div class="line"><span class="comment">//does NOT work for arrays/vectors</span></div>
-<div class="line">uintptr_t address = 0x2240001C;</div>
+<div class="line"><a class="code" href="class_address.html">Address</a> address = <a class="code" href="class_address.html">Address</a>(0x2240001C);</div>
 <div class="line"><span class="comment">// read integer stored at address</span></div>
 <div class="line"><span class="keywordtype">int</span> test = memory.read&lt;<span class="keywordtype">int</span>&gt;(address);</div>
 <div class="line"><span class="comment">// read one word</span></div>
@@ -105,20 +164,49 @@ read/write memory</h2>
 <div class="line">std::string text = memory.readString(address, 200);</div>
 <div class="line"><span class="comment">//write value 5 starting at given address</span></div>
 <div class="line">memory.write&lt;<span class="keywordtype">int</span>&gt;(address, 5);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md10"></a>
+internal</h3>
+<div class="fragment"><div class="line"><span class="comment">//works for all types including uintptr_t, int, double etc. as well as custom structs and classes.</span></div>
+<div class="line"><span class="comment">//does NOT work for arrays/vectors</span></div>
+<div class="line"><a class="code" href="class_address.html">Address</a> address = <a class="code" href="class_address.html">Address</a>(0x2240001C);</div>
+<div class="line"><span class="comment">// read integer stored at address</span></div>
+<div class="line"><span class="keywordtype">int</span> test = Internal::Memory::read&lt;int&gt;(address);</div>
+<div class="line"><span class="comment">//write value 5 starting at given address</span></div>
+<div class="line">Internal::Memory::write&lt;int&gt;(address, 5);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
 get module base address</h2>
-<div class="fragment"><div class="line">uintptr_t clientAddr = memory.getModule(<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
+external</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> clientAddr = memory.getModule(<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
+internal</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> clientAddr = <a class="code" href="namespace_internal_1_1_memory.html#a1b725974cfdbb906573e218103d3d1a3">Internal::Memory::getModule</a>(<span class="stringliteral">&quot;client.dll&quot;</span>);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
 get address from static pointer + offsets</h2>
-<p><img src="docs/img/getAddress.png" alt="Static Pointer in CE" class="inline"/></p>
-<div class="fragment"><div class="line">uintptr_t baseAddr = memory.getModule(<span class="stringliteral">&quot;ZW64.exe&quot;</span>);</div>
-<div class="line">uintptr_t healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
+<p><img src="Library/docs/img/getAddress.png" alt="Static Pointer in CE" class="inline"/></p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+external</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> baseAddr = memory.getModule(<span class="stringliteral">&quot;ZW64.exe&quot;</span>);</div>
+<div class="line"><a class="code" href="class_address.html">Address</a> healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md16"></a>
+internal</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> baseAddr = <a class="code" href="namespace_internal_1_1_memory.html#a1b725974cfdbb906573e218103d3d1a3">Internal::Memory::getModule</a>(<span class="stringliteral">&quot;ZW64.exe&quot;</span>);</div>
+<div class="line"><a class="code" href="class_address.html">Address</a> healthAddr = <a class="code" href="namespace_internal_1_1_memory.html#a518611aaf98a0857f03aa89357a42d6d">Internal::Memory::getAddress</a>(baseAddr+0x00003648, { 0x40,0xE4 });</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
 AOB Scanner</h2>
-<div class="fragment"><div class="line">uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, { -1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF });</div>
+<h3><a class="anchor" id="autotoc_md18"></a>
+external</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> address = memory.findSignature(0x7FF702CB5D00, <span class="stringliteral">&quot;? 39 05 F0 A2 F6 FF&quot;</span> , 10000);</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
+internal</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_address.html">Address</a> address = <a class="code" href="namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732">Internal::Memory::findSignature</a>(0x7FF702CB5D00, <span class="stringliteral">&quot;? 39 05 F0 A2 F6 FF&quot;</span> , 10000);</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
-<div class="ttc" id="aclass_external_1_1_memory_html"><div class="ttname"><a href="class_external_1_1_memory.html">External::Memory</a></div><div class="ttdef"><b>Definition:</b> Memory.h:35</div></div>
+<div class="ttc" id="aclass_address_html"><div class="ttname"><a href="class_address.html">Address</a></div><div class="ttdef"><b>Definition:</b> Address.h:5</div></div>
+<div class="ttc" id="aclass_external_1_1_memory_html"><div class="ttname"><a href="class_external_1_1_memory.html">External::Memory</a></div><div class="ttdef"><b>Definition:</b> Memory.h:40</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_ad81f976fe9881273c945b05ffba2e732"><div class="ttname"><a href="namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732">Internal::Memory::findSignature</a></div><div class="ttdeci">Address findSignature(uintptr_t start, const char *sig, size_t size=0) noexcept</div><div class="ttdoc">a basic signature scanner</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_a518611aaf98a0857f03aa89357a42d6d"><div class="ttname"><a href="namespace_internal_1_1_memory.html#a518611aaf98a0857f03aa89357a42d6d">Internal::Memory::getAddress</a></div><div class="ttdeci">Address getAddress(const uintptr_t basePrt, const std::vector&lt; uintptr_t &gt; &amp;offsets) noexcept</div><div class="ttdoc">returns the dynamic pointer from base pointer basePrt and offsets</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_a1b725974cfdbb906573e218103d3d1a3"><div class="ttname"><a href="namespace_internal_1_1_memory.html#a1b725974cfdbb906573e218103d3d1a3">Internal::Memory::getModule</a></div><div class="ttdeci">Address getModule(const char *modName) noexcept</div><div class="ttdoc">returns the module base address of modName (example: &quot;client.dll&quot;)</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

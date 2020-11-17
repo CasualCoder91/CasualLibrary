@@ -91,50 +91,110 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#ifdef _MSC_VER</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#pragma warning(disable : 6001)</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span>External {</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_external_1_1_memory.html">   35</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_external_1_1_memory.html">Memory</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="class_external_1_1_memory.html">Memory</a>(<span class="keyword">const</span> std::string&amp; proc);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        ~<a class="code" href="class_external_1_1_memory.html">Memory</a>(<span class="keywordtype">void</span>) noexcept;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;Address.h&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;std::vector&lt;int&gt; patternToBytes(<span class="keyword">const</span> <span class="keywordtype">char</span>* pattern);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;std::string getLastErrorAsString();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>External {</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_external_1_1_memory.html">   40</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_external_1_1_memory.html">Memory</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        __forceinline T read(<span class="keyword">const</span> uintptr_t addToBeRead) noexcept {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            T varBuff;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            ReadProcessMemory(handle, (LPBYTE*)addToBeRead, &amp;varBuff, <span class="keyword">sizeof</span>(varBuff), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">return</span> varBuff;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        std::string readString(<span class="keyword">const</span> uintptr_t addToBeRead, std::size_t size = 0) noexcept;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        __forceinline T write(<span class="keyword">const</span> uintptr_t addToWrite, <span class="keyword">const</span> T valToWrite) noexcept {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            WriteProcessMemory(handle, (LPBYTE*)addToWrite, &amp;valToWrite, <span class="keyword">sizeof</span>(valToWrite), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">return</span> valToWrite;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        DWORD <a class="code" href="class_external_1_1_memory.html#a064407e96945419f18b6de5445f0c938">getProcessID</a>(<span class="keywordtype">void</span>) noexcept;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        uintptr_t <a class="code" href="class_external_1_1_memory.html#aa06a8b3085b510bf9e420691b4627b44">getModule</a>(<span class="keyword">const</span> std::string&amp; modName) noexcept;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        uintptr_t <a class="code" href="class_external_1_1_memory.html#a275a26881b14c7d280780b373f811230">getAddress</a>(<span class="keyword">const</span> uintptr_t basePrt, <span class="keyword">const</span> std::vector&lt;uintptr_t&gt;&amp; offsets) noexcept;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">bool</span> memoryCompare(<span class="keyword">const</span> BYTE* bData, <span class="keyword">const</span> std::vector&lt;int&gt;&amp; signature) noexcept;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        uintptr_t <a class="code" href="class_external_1_1_memory.html#a7ab837e2327e8d0c60de1f1590c08663">findSignatureAddress</a>(<span class="keyword">const</span> uintptr_t start, <span class="keyword">const</span> <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> std::vector&lt;int&gt;&amp; signature) noexcept;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        HANDLE handle;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        DWORD processID = 0;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">bool</span> init(<span class="keyword">const</span> std::string&amp; proc, <span class="keyword">const</span> DWORD access = PROCESS_ALL_ACCESS);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    };</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="class_external_1_1_memory.html">Memory</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* proc,<span class="keywordtype">bool</span> debug = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        ~<a class="code" href="class_external_1_1_memory.html">Memory</a>(<span class="keywordtype">void</span>) noexcept;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        __forceinline T read(<span class="keyword">const</span> uintptr_t addToBeRead) noexcept {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            T varBuff;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            ReadProcessMemory(handle, (LPBYTE*)addToBeRead, &amp;varBuff, <span class="keyword">sizeof</span>(varBuff), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">return</span> varBuff;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        __forceinline T read(<span class="keyword">const</span> <a class="code" href="class_address.html">Address</a> addToBeRead) noexcept {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            T varBuff;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            ReadProcessMemory(handle, (LPBYTE*)addToBeRead.get(), &amp;varBuff, <span class="keyword">sizeof</span>(varBuff), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> varBuff;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        __forceinline T write(<span class="keyword">const</span> uintptr_t addToWrite, <span class="keyword">const</span> T valToWrite) noexcept {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            WriteProcessMemory(handle, (LPBYTE*)addToWrite, &amp;valToWrite, <span class="keyword">sizeof</span>(valToWrite), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">return</span> valToWrite;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        std::string readString(<span class="keyword">const</span> uintptr_t addToBeRead, std::size_t size = 0) noexcept;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        std::string readString(<span class="keyword">const</span> <a class="code" href="class_address.html">Address</a> addToBeRead, std::size_t size = 0) noexcept;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        DWORD <a class="code" href="class_external_1_1_memory.html#a064407e96945419f18b6de5445f0c938">getProcessID</a>(<span class="keywordtype">void</span>) noexcept;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="class_external_1_1_memory.html#a5fc8b18c0a20b4db49ce13e79889915e">getModule</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* modName) noexcept;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="class_external_1_1_memory.html#a15f86610041bb979084eeeaacf47f9b7">getAddress</a>(<span class="keyword">const</span> uintptr_t basePrt, <span class="keyword">const</span> std::vector&lt;uintptr_t&gt;&amp; offsets) noexcept;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="class_external_1_1_memory.html#a15f86610041bb979084eeeaacf47f9b7">getAddress</a>(<a class="code" href="class_address.html">Address</a> basePrt, <span class="keyword">const</span> std::vector&lt;uintptr_t&gt;&amp; offsets) noexcept;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">bool</span> memoryCompare(<span class="keyword">const</span> BYTE* bData, <span class="keyword">const</span> std::vector&lt;int&gt;&amp; signature) noexcept;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="class_external_1_1_memory.html#af0ae421822c95c16f94db65a3ca620ec">findSignature</a>(<span class="keyword">const</span> uintptr_t start, <span class="keyword">const</span> <span class="keywordtype">char</span>* sig, <span class="keyword">const</span> <span class="keywordtype">size_t</span> size) noexcept;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="class_external_1_1_memory.html#af0ae421822c95c16f94db65a3ca620ec">findSignature</a>(<span class="keyword">const</span> <a class="code" href="class_address.html">Address</a> start, <span class="keyword">const</span> <span class="keywordtype">char</span>* sig, <span class="keyword">const</span> <span class="keywordtype">size_t</span> size) noexcept;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        HANDLE handle;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        DWORD processID = 0;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordtype">bool</span> debug = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordtype">bool</span> init(<span class="keyword">const</span> <span class="keywordtype">char</span>* proc, <span class="keyword">const</span> DWORD access = PROCESS_ALL_ACCESS);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    };</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">namespace </span>Internal</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;{</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="namespace_internal_1_1_memory.html">  113</a></span>&#160;    <span class="keyword">namespace </span>Memory</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        __forceinline T read(uintptr_t address) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">return</span> *(T*)address;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        __forceinline T read(<span class="keyword">const</span> <a class="code" href="class_address.html">Address</a> addToBeRead) noexcept {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">return</span> *(T*)addToBeRead.get();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        __forceinline <span class="keywordtype">void</span> write(uintptr_t address, T value) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">try</span> { *(T*)address = value; }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">catch</span> (...) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#a1b725974cfdbb906573e218103d3d1a3">getModule</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* modName) noexcept;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#a518611aaf98a0857f03aa89357a42d6d">getAddress</a>(<span class="keyword">const</span> uintptr_t basePrt, <span class="keyword">const</span> std::vector&lt;uintptr_t&gt;&amp; offsets) noexcept;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#a518611aaf98a0857f03aa89357a42d6d">getAddress</a>(<a class="code" href="class_address.html">Address</a> basePrt, <span class="keyword">const</span> std::vector&lt;uintptr_t&gt;&amp; offsets) noexcept;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732">findSignature</a>(uintptr_t start, <span class="keyword">const</span> <span class="keywordtype">char</span>* sig, <span class="keywordtype">size_t</span> size = 0) noexcept;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732">findSignature</a>(<span class="keyword">const</span> <a class="code" href="class_address.html">Address</a> start, <span class="keyword">const</span> <span class="keywordtype">char</span>* sig, <span class="keywordtype">size_t</span> size = 0) noexcept;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <a class="code" href="class_address.html">Address</a> <a class="code" href="namespace_internal_1_1_memory.html#aea94957dbaa3222136f73f10159aba65">findModuleSignature</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* mod, <span class="keyword">const</span> <span class="keywordtype">char</span>* sig) noexcept;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        T getVirtualFunction(<span class="keywordtype">void</span>* baseClass, uint32_t index){</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="keywordflow">return</span> (*<span class="keyword">static_cast&lt;</span>T**<span class="keyword">&gt;</span>(baseClass))[index];</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> ... Args&gt;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        T callVirtualFunction(<span class="keywordtype">void</span>* baseClass, uint32_t index, Args... args){</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> getVirtualFunction&lt;T(__thiscall*)(<span class="keywordtype">void</span>*, Args...)&gt;(baseClass, index)(baseClass, args...);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclass_external_1_1_memory_html_a7ab837e2327e8d0c60de1f1590c08663"><div class="ttname"><a href="class_external_1_1_memory.html#a7ab837e2327e8d0c60de1f1590c08663">External::Memory::findSignatureAddress</a></div><div class="ttdeci">uintptr_t findSignatureAddress(const uintptr_t start, const size_t size, const std::vector&lt; int &gt; &amp;signature) noexcept</div><div class="ttdoc">a basic signature scanner</div></div>
-<div class="ttc" id="aclass_external_1_1_memory_html_aa06a8b3085b510bf9e420691b4627b44"><div class="ttname"><a href="class_external_1_1_memory.html#aa06a8b3085b510bf9e420691b4627b44">External::Memory::getModule</a></div><div class="ttdeci">uintptr_t getModule(const std::string &amp;modName) noexcept</div><div class="ttdoc">returns the module base address of modName (example: &quot;client.dll&quot;)</div></div>
+<div class="ttc" id="aclass_external_1_1_memory_html_a5fc8b18c0a20b4db49ce13e79889915e"><div class="ttname"><a href="class_external_1_1_memory.html#a5fc8b18c0a20b4db49ce13e79889915e">External::Memory::getModule</a></div><div class="ttdeci">Address getModule(const char *modName) noexcept</div><div class="ttdoc">returns the module base address of modName (example: &quot;client.dll&quot;)</div></div>
 <div class="ttc" id="aclass_external_1_1_memory_html_a064407e96945419f18b6de5445f0c938"><div class="ttname"><a href="class_external_1_1_memory.html#a064407e96945419f18b6de5445f0c938">External::Memory::getProcessID</a></div><div class="ttdeci">DWORD getProcessID(void) noexcept</div><div class="ttdoc">returns process id of the target process</div></div>
-<div class="ttc" id="aclass_external_1_1_memory_html"><div class="ttname"><a href="class_external_1_1_memory.html">External::Memory</a></div><div class="ttdef"><b>Definition:</b> Memory.h:35</div></div>
-<div class="ttc" id="aclass_external_1_1_memory_html_a275a26881b14c7d280780b373f811230"><div class="ttname"><a href="class_external_1_1_memory.html#a275a26881b14c7d280780b373f811230">External::Memory::getAddress</a></div><div class="ttdeci">uintptr_t getAddress(const uintptr_t basePrt, const std::vector&lt; uintptr_t &gt; &amp;offsets) noexcept</div><div class="ttdoc">returns the dynamic pointer from base pointer basePrt and offsets</div></div>
+<div class="ttc" id="aclass_external_1_1_memory_html_af0ae421822c95c16f94db65a3ca620ec"><div class="ttname"><a href="class_external_1_1_memory.html#af0ae421822c95c16f94db65a3ca620ec">External::Memory::findSignature</a></div><div class="ttdeci">Address findSignature(const uintptr_t start, const char *sig, const size_t size) noexcept</div><div class="ttdoc">a basic signature scanner</div></div>
+<div class="ttc" id="aclass_address_html"><div class="ttname"><a href="class_address.html">Address</a></div><div class="ttdef"><b>Definition:</b> Address.h:5</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_aea94957dbaa3222136f73f10159aba65"><div class="ttname"><a href="namespace_internal_1_1_memory.html#aea94957dbaa3222136f73f10159aba65">Internal::Memory::findModuleSignature</a></div><div class="ttdeci">Address findModuleSignature(const char *mod, const char *sig) noexcept</div><div class="ttdoc">a basic signature scanner searching within the address space of one module.</div></div>
+<div class="ttc" id="aclass_external_1_1_memory_html"><div class="ttname"><a href="class_external_1_1_memory.html">External::Memory</a></div><div class="ttdef"><b>Definition:</b> Memory.h:40</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_ad81f976fe9881273c945b05ffba2e732"><div class="ttname"><a href="namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732">Internal::Memory::findSignature</a></div><div class="ttdeci">Address findSignature(uintptr_t start, const char *sig, size_t size=0) noexcept</div><div class="ttdoc">a basic signature scanner</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_a518611aaf98a0857f03aa89357a42d6d"><div class="ttname"><a href="namespace_internal_1_1_memory.html#a518611aaf98a0857f03aa89357a42d6d">Internal::Memory::getAddress</a></div><div class="ttdeci">Address getAddress(const uintptr_t basePrt, const std::vector&lt; uintptr_t &gt; &amp;offsets) noexcept</div><div class="ttdoc">returns the dynamic pointer from base pointer basePrt and offsets</div></div>
+<div class="ttc" id="anamespace_internal_1_1_memory_html_a1b725974cfdbb906573e218103d3d1a3"><div class="ttname"><a href="namespace_internal_1_1_memory.html#a1b725974cfdbb906573e218103d3d1a3">Internal::Memory::getModule</a></div><div class="ttdeci">Address getModule(const char *modName) noexcept</div><div class="ttdoc">returns the module base address of modName (example: &quot;client.dll&quot;)</div></div>
+<div class="ttc" id="aclass_external_1_1_memory_html_a15f86610041bb979084eeeaacf47f9b7"><div class="ttname"><a href="class_external_1_1_memory.html#a15f86610041bb979084eeeaacf47f9b7">External::Memory::getAddress</a></div><div class="ttdeci">Address getAddress(const uintptr_t basePrt, const std::vector&lt; uintptr_t &gt; &amp;offsets) noexcept</div><div class="ttdoc">returns the dynamic pointer from base pointer basePrt and offsets</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

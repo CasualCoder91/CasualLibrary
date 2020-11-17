@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['getaddress_1',['getAddress',['../class_external_1_1_memory.html#a275a26881b14c7d280780b373f811230',1,'External::Memory']]],
-  ['getmodule_2',['getModule',['../class_external_1_1_memory.html#aa06a8b3085b510bf9e420691b4627b44',1,'External::Memory']]],
-  ['getprocessid_3',['getProcessID',['../class_external_1_1_memory.html#a064407e96945419f18b6de5445f0c938',1,'External::Memory']]]
+  ['findmodulesignature_1',['findModuleSignature',['../namespace_internal_1_1_memory.html#aea94957dbaa3222136f73f10159aba65',1,'Internal::Memory']]],
+  ['findsignature_2',['findSignature',['../class_external_1_1_memory.html#af0ae421822c95c16f94db65a3ca620ec',1,'External::Memory::findSignature()'],['../namespace_internal_1_1_memory.html#ad81f976fe9881273c945b05ffba2e732',1,'Internal::Memory::findSignature(uintptr_t start, const char *sig, size_t size=0) noexcept'],['../namespace_internal_1_1_memory.html#a50a3219749f6d493918a6b29b21b1ce5',1,'Internal::Memory::findSignature(const Address start, const char *sig, size_t size=0) noexcept']]]
 ];

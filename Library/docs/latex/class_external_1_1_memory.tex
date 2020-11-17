@@ -7,32 +7,44 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_external_1_1_memory_a8545b1edd0944dfc67aa806edcea3345}\label{class_external_1_1_memory_a8545b1edd0944dfc67aa806edcea3345}} 
-{\bfseries Memory} (const std\+::string \&proc)
+\mbox{\Hypertarget{class_external_1_1_memory_a87ff06c58db0bd4fc18164e8f30e7596}\label{class_external_1_1_memory_a87ff06c58db0bd4fc18164e8f30e7596}} 
+{\bfseries Memory} (const char $\ast$proc, bool debug=false)
 \item 
 \mbox{\Hypertarget{class_external_1_1_memory_a0f703faf01135065b2c59ad9dcd54f5e}\label{class_external_1_1_memory_a0f703faf01135065b2c59ad9dcd54f5e}} 
 {\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline T {\bfseries read} (const uintptr\+\_\+t add\+To\+Be\+Read) noexcept
 \item 
-\mbox{\Hypertarget{class_external_1_1_memory_ac638b42b0ccd5b73e2b753c8df1919eb}\label{class_external_1_1_memory_ac638b42b0ccd5b73e2b753c8df1919eb}} 
-std\+::string {\bfseries read\+String} (const uintptr\+\_\+t add\+To\+Be\+Read, std\+::size\+\_\+t size=0) noexcept
+\mbox{\Hypertarget{class_external_1_1_memory_a37c52af4957036bf1776e32e6690e161}\label{class_external_1_1_memory_a37c52af4957036bf1776e32e6690e161}} 
+{\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline T {\bfseries read} (const \mbox{\hyperlink{class_address}{Address}} add\+To\+Be\+Read) noexcept
 \item 
 \mbox{\Hypertarget{class_external_1_1_memory_a77baccd12f02e4c2671651678ec3ac2b}\label{class_external_1_1_memory_a77baccd12f02e4c2671651678ec3ac2b}} 
 {\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline T {\bfseries write} (const uintptr\+\_\+t add\+To\+Write, const T val\+To\+Write) noexcept
 \item 
+\mbox{\Hypertarget{class_external_1_1_memory_ac638b42b0ccd5b73e2b753c8df1919eb}\label{class_external_1_1_memory_ac638b42b0ccd5b73e2b753c8df1919eb}} 
+std\+::string {\bfseries read\+String} (const uintptr\+\_\+t add\+To\+Be\+Read, std\+::size\+\_\+t size=0) noexcept
+\item 
+\mbox{\Hypertarget{class_external_1_1_memory_ac947f22fec3abf19a1a33542596399de}\label{class_external_1_1_memory_ac947f22fec3abf19a1a33542596399de}} 
+std\+::string {\bfseries read\+String} (const \mbox{\hyperlink{class_address}{Address}} add\+To\+Be\+Read, std\+::size\+\_\+t size=0) noexcept
+\item 
 \mbox{\Hypertarget{class_external_1_1_memory_a064407e96945419f18b6de5445f0c938}\label{class_external_1_1_memory_a064407e96945419f18b6de5445f0c938}} 
 D\+W\+O\+RD \mbox{\hyperlink{class_external_1_1_memory_a064407e96945419f18b6de5445f0c938}{get\+Process\+ID}} (void) noexcept
 \begin{DoxyCompactList}\small\item\em returns process id of the target process \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_external_1_1_memory_aa06a8b3085b510bf9e420691b4627b44}\label{class_external_1_1_memory_aa06a8b3085b510bf9e420691b4627b44}} 
-uintptr\+\_\+t \mbox{\hyperlink{class_external_1_1_memory_aa06a8b3085b510bf9e420691b4627b44}{get\+Module}} (const std\+::string \&mod\+Name) noexcept
+\mbox{\Hypertarget{class_external_1_1_memory_a5fc8b18c0a20b4db49ce13e79889915e}\label{class_external_1_1_memory_a5fc8b18c0a20b4db49ce13e79889915e}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{class_external_1_1_memory_a5fc8b18c0a20b4db49ce13e79889915e}{get\+Module}} (const char $\ast$mod\+Name) noexcept
 \begin{DoxyCompactList}\small\item\em returns the module base address of {\ttfamily mod\+Name} (example\+: \char`\"{}client.\+dll\char`\"{}) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_external_1_1_memory_a275a26881b14c7d280780b373f811230}\label{class_external_1_1_memory_a275a26881b14c7d280780b373f811230}} 
-uintptr\+\_\+t \mbox{\hyperlink{class_external_1_1_memory_a275a26881b14c7d280780b373f811230}{get\+Address}} (const uintptr\+\_\+t base\+Prt, const std\+::vector$<$ uintptr\+\_\+t $>$ \&offsets) noexcept
+\mbox{\Hypertarget{class_external_1_1_memory_a15f86610041bb979084eeeaacf47f9b7}\label{class_external_1_1_memory_a15f86610041bb979084eeeaacf47f9b7}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{class_external_1_1_memory_a15f86610041bb979084eeeaacf47f9b7}{get\+Address}} (const uintptr\+\_\+t base\+Prt, const std\+::vector$<$ uintptr\+\_\+t $>$ \&offsets) noexcept
+\begin{DoxyCompactList}\small\item\em returns the dynamic pointer from base pointer {\ttfamily base\+Prt} and {\ttfamily offsets} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a7773490c917e3652f879e76c432b6b71}\label{class_external_1_1_memory_a7773490c917e3652f879e76c432b6b71}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{class_external_1_1_memory_a7773490c917e3652f879e76c432b6b71}{get\+Address}} (\mbox{\hyperlink{class_address}{Address}} base\+Prt, const std\+::vector$<$ uintptr\+\_\+t $>$ \&offsets) noexcept
 \begin{DoxyCompactList}\small\item\em returns the dynamic pointer from base pointer {\ttfamily base\+Prt} and {\ttfamily offsets} \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_external_1_1_memory_acf26112363f7afa37b1b1771bcd9bf08}\label{class_external_1_1_memory_acf26112363f7afa37b1b1771bcd9bf08}} 
 bool {\bfseries memory\+Compare} (const B\+Y\+TE $\ast$b\+Data, const std\+::vector$<$ int $>$ \&signature) noexcept
 \item 
-uintptr\+\_\+t \mbox{\hyperlink{class_external_1_1_memory_a7ab837e2327e8d0c60de1f1590c08663}{find\+Signature\+Address}} (const uintptr\+\_\+t start, const size\+\_\+t size, const std\+::vector$<$ int $>$ \&signature) noexcept
-\begin{DoxyCompactList}\small\item\em a basic signature scanner \end{DoxyCompactList}\end{DoxyCompactItemize}
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{class_external_1_1_memory_af0ae421822c95c16f94db65a3ca620ec}{find\+Signature}} (const uintptr\+\_\+t start, const char $\ast$sig, const size\+\_\+t size) noexcept
+\begin{DoxyCompactList}\small\item\em a basic signature scanner \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_external_1_1_memory_a775b77d075d6267104c84fdcca317662}\label{class_external_1_1_memory_a775b77d075d6267104c84fdcca317662}} 
+\mbox{\hyperlink{class_address}{Address}} {\bfseries find\+Signature} (const \mbox{\hyperlink{class_address}{Address}} start, const char $\ast$sig, const size\+\_\+t size) noexcept
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -42,18 +54,18 @@ Serves as communicator between your application and the games memory.
 Casual\+Comunity\+: Alien, C3x0r, Casual\+Gamer 
 \end{DoxyAuthor}
 \begin{DoxyVersion}{Version}
-0.\+1 23.\+10.\+2020 
+0.\+1.\+2 06.\+11.\+2020 
 \end{DoxyVersion}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]\+: optimize scanner speed, optional parameter with desired\+Access \end{DoxyRefDesc}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]\+: optimize scanner speed, optional parameter with desired\+Access, memory checks, add read\+String(...) to internal \end{DoxyRefDesc}
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{class_external_1_1_memory_a7ab837e2327e8d0c60de1f1590c08663}\label{class_external_1_1_memory_a7ab837e2327e8d0c60de1f1590c08663}} 
-\index{External::Memory@{External::Memory}!findSignatureAddress@{findSignatureAddress}}
-\index{findSignatureAddress@{findSignatureAddress}!External::Memory@{External::Memory}}
-\doxysubsubsection{\texorpdfstring{findSignatureAddress()}{findSignatureAddress()}}
-{\footnotesize\ttfamily uintptr\+\_\+t External\+::\+Memory\+::find\+Signature\+Address (\begin{DoxyParamCaption}\item[{const uintptr\+\_\+t}]{start,  }\item[{const size\+\_\+t}]{size,  }\item[{const std\+::vector$<$ int $>$ \&}]{signature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+\mbox{\Hypertarget{class_external_1_1_memory_af0ae421822c95c16f94db65a3ca620ec}\label{class_external_1_1_memory_af0ae421822c95c16f94db65a3ca620ec}} 
+\index{External::Memory@{External::Memory}!findSignature@{findSignature}}
+\index{findSignature@{findSignature}!External::Memory@{External::Memory}}
+\doxysubsubsection{\texorpdfstring{findSignature()}{findSignature()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_address}{Address}} External\+::\+Memory\+::find\+Signature (\begin{DoxyParamCaption}\item[{const uintptr\+\_\+t}]{start,  }\item[{const char $\ast$}]{sig,  }\item[{const size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
 
 
 
@@ -61,11 +73,11 @@ a basic signature scanner
 
 
 \begin{DoxyParams}{Parameters}
-{\em start} & Address where to start scanning. \\
+{\em start} & \mbox{\hyperlink{class_address}{Address}} where to start scanning. \\
 \hline
 {\em size} & Size of the area to search within. \\
 \hline
-{\em signature} & Signature to search for. example\+: \{-\/1, 0x39, 0x05, 0x\+F0, 0x\+A2, 0x\+F6, 0x\+FF\} where -\/1 is a wild card. \\
+{\em sig} & Signature to search for. example\+: \{-\/1, 0x39, 0x05, 0x\+F0, 0x\+A2, 0x\+F6, 0x\+FF\} where -\/1 is a wild card. \\
 \hline
 \end{DoxyParams}
 

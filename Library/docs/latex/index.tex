@@ -1,4 +1,4 @@
-\hypertarget{index_autotoc_md1}{}\doxysection{About The Project}\label{index_autotoc_md1}
+Sample dll including the library\hypertarget{index_autotoc_md1}{}\doxysection{About The Project}\label{index_autotoc_md1}
 \mbox{\hyperlink{class_helper}{Helper}} library for external windows game hacking.
 
 Collaborative work provided by the \href{https://discord.gg/CRMQq4F}{\texttt{ Casual\+Community}}\hypertarget{index_autotoc_md2}{}\doxysection{Installation}\label{index_autotoc_md2}
@@ -10,6 +10,7 @@ Collaborative work provided by the \href{https://discord.gg/CRMQq4F}{\texttt{ Ca
 \end{DoxyEnumerate}\hypertarget{index_autotoc_md3}{}\doxysection{Documentation}\label{index_autotoc_md3}
 The main set of documentation can be found \href{https://casualcoder91.github.io/CasualLibrary/html/index.html}{\texttt{ here}}\hypertarget{index_autotoc_md4}{}\doxysection{Usage}\label{index_autotoc_md4}
 \hypertarget{index_autotoc_md5}{}\doxysubsection{bare-\/bones setup}\label{index_autotoc_md5}
+\hypertarget{index_autotoc_md6}{}\doxysubsubsection{external}\label{index_autotoc_md6}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{preprocessor}{\#include <iostream>}}
@@ -17,14 +18,73 @@ The main set of documentation can be found \href{https://casualcoder91.github.io
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordtype}{int} main()\{}
 \DoxyCodeLine{    \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}} memory = \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}}(\textcolor{stringliteral}{"target.exe"});}
+\DoxyCodeLine{    \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}} memoryDebug = \mbox{\hyperlink{class_external_1_1_memory}{External::Memory}}(\textcolor{stringliteral}{"target.exe"}, \textcolor{keyword}{true}); \textcolor{comment}{//use for debug messages}}
 \DoxyCodeLine{\}}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md6}{}\doxysubsection{read/write memory}\label{index_autotoc_md6}
+\hypertarget{index_autotoc_md7}{}\doxysubsubsection{internal}\label{index_autotoc_md7}
+$<$details$>$
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Windows.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Memory.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{HMODULE myhModule;}
+\DoxyCodeLine{}
+\DoxyCodeLine{DWORD \_\_stdcall EjectThread(LPVOID lpParameter) \{}
+\DoxyCodeLine{    Sleep(100);}
+\DoxyCodeLine{    FreeLibraryAndExitThread(myhModule, 0);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{DWORD WINAPI Menue() \{}
+\DoxyCodeLine{    AllocConsole();}
+\DoxyCodeLine{    FILE* fp;}
+\DoxyCodeLine{    freopen\_s(\&fp, \textcolor{stringliteral}{"CONOUT\$"}, \textcolor{stringliteral}{"w"}, stdout); \textcolor{comment}{// output only}}
+\DoxyCodeLine{    std::cout << \textcolor{stringliteral}{"Running tests ...\(\backslash\)n\(\backslash\)n"};}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{comment}{//add Code here}}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{keywordflow}{while} (1) \{}
+\DoxyCodeLine{        Sleep(100);}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (GetAsyncKeyState(VK\_NUMPAD0))}
+\DoxyCodeLine{            \textcolor{keywordflow}{break};}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    fclose(fp);}
+\DoxyCodeLine{    FreeConsole();}
+\DoxyCodeLine{    CreateThread(0, 0, EjectThread, 0, 0, 0);}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{BOOL APIENTRY DllMain(HMODULE hModule,}
+\DoxyCodeLine{    DWORD  ul\_reason\_for\_call,}
+\DoxyCodeLine{    LPVOID lpReserved}
+\DoxyCodeLine{    )}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    \textcolor{keywordflow}{switch} (ul\_reason\_for\_call)}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{    \textcolor{keywordflow}{case} DLL\_PROCESS\_ATTACH:}
+\DoxyCodeLine{        myhModule = hModule;}
+\DoxyCodeLine{        CreateThread(NULL, 0, (LPTHREAD\_START\_ROUTINE)Menue, NULL, 0, NULL);}
+\DoxyCodeLine{    \textcolor{keywordflow}{case} DLL\_THREAD\_ATTACH:}
+\DoxyCodeLine{    \textcolor{keywordflow}{case} DLL\_THREAD\_DETACH:}
+\DoxyCodeLine{    \textcolor{keywordflow}{case} DLL\_PROCESS\_DETACH:}
+\DoxyCodeLine{        \textcolor{keywordflow}{break};}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} TRUE;}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+$<$/details$>$\hypertarget{index_autotoc_md8}{}\doxysubsection{read/write memory}\label{index_autotoc_md8}
+\hypertarget{index_autotoc_md9}{}\doxysubsubsection{external}\label{index_autotoc_md9}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//works for all types including uintptr\_t, int, double etc. as well as custom structs and classes.}}
 \DoxyCodeLine{\textcolor{comment}{//does NOT work for arrays/vectors}}
-\DoxyCodeLine{uintptr\_t address = 0x2240001C;}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} address = \mbox{\hyperlink{class_address}{Address}}(0x2240001C);}
 \DoxyCodeLine{\textcolor{comment}{// read integer stored at address}}
 \DoxyCodeLine{\textcolor{keywordtype}{int} test = memory.read<\textcolor{keywordtype}{int}>(address);}
 \DoxyCodeLine{\textcolor{comment}{// read one word}}
@@ -34,22 +94,50 @@ The main set of documentation can be found \href{https://casualcoder91.github.io
 \DoxyCodeLine{\textcolor{comment}{//write value 5 starting at given address}}
 \DoxyCodeLine{memory.write<\textcolor{keywordtype}{int}>(address, 5);}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md7}{}\doxysubsection{get module base address}\label{index_autotoc_md7}
+\hypertarget{index_autotoc_md10}{}\doxysubsubsection{internal}\label{index_autotoc_md10}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{uintptr\_t clientAddr = memory.getModule(\textcolor{stringliteral}{"client.dll"});}
+\DoxyCodeLine{\textcolor{comment}{//works for all types including uintptr\_t, int, double etc. as well as custom structs and classes.}}
+\DoxyCodeLine{\textcolor{comment}{//does NOT work for arrays/vectors}}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} address = \mbox{\hyperlink{class_address}{Address}}(0x2240001C);}
+\DoxyCodeLine{\textcolor{comment}{// read integer stored at address}}
+\DoxyCodeLine{\textcolor{keywordtype}{int} test = Internal::Memory::read<int>(address);}
+\DoxyCodeLine{\textcolor{comment}{//write value 5 starting at given address}}
+\DoxyCodeLine{Internal::Memory::write<int>(address, 5);}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md8}{}\doxysubsection{get address from static pointer + offsets}\label{index_autotoc_md8}
-
-
+\hypertarget{index_autotoc_md11}{}\doxysubsection{get module base address}\label{index_autotoc_md11}
+\hypertarget{index_autotoc_md12}{}\doxysubsubsection{external}\label{index_autotoc_md12}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{uintptr\_t baseAddr = memory.getModule(\textcolor{stringliteral}{"ZW64.exe"});}
-\DoxyCodeLine{uintptr\_t healthAddr = memory.getAddress(baseAddr+0x00003648, \{ 0x40,0xE4 \});}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} clientAddr = memory.getModule(\textcolor{stringliteral}{"client.dll"});}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md9}{}\doxysubsection{A\+O\+B Scanner}\label{index_autotoc_md9}
+\hypertarget{index_autotoc_md13}{}\doxysubsubsection{internal}\label{index_autotoc_md13}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{uintptr\_t address = memory.findSignatureAddress(0x7FF702CB5D00, 10000, \{ -\/1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF \});}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} clientAddr = \mbox{\hyperlink{namespace_internal_1_1_memory_a1b725974cfdbb906573e218103d3d1a3}{Internal::Memory::getModule}}(\textcolor{stringliteral}{"client.dll"});}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md14}{}\doxysubsection{get address from static pointer + offsets}\label{index_autotoc_md14}
+\hypertarget{index_autotoc_md15}{}\doxysubsubsection{external}\label{index_autotoc_md15}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} baseAddr = memory.getModule(\textcolor{stringliteral}{"ZW64.exe"});}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} healthAddr = memory.getAddress(baseAddr+0x00003648, \{ 0x40,0xE4 \});}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md16}{}\doxysubsubsection{internal}\label{index_autotoc_md16}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} baseAddr = \mbox{\hyperlink{namespace_internal_1_1_memory_a1b725974cfdbb906573e218103d3d1a3}{Internal::Memory::getModule}}(\textcolor{stringliteral}{"ZW64.exe"});}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} healthAddr = \mbox{\hyperlink{namespace_internal_1_1_memory_a518611aaf98a0857f03aa89357a42d6d}{Internal::Memory::getAddress}}(baseAddr+0x00003648, \{ 0x40,0xE4 \});}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md17}{}\doxysubsection{A\+O\+B Scanner}\label{index_autotoc_md17}
+\hypertarget{index_autotoc_md18}{}\doxysubsubsection{external}\label{index_autotoc_md18}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} address = memory.findSignature(0x7FF702CB5D00, \textcolor{stringliteral}{"? 39 05 F0 A2 F6 FF"} , 10000);}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md19}{}\doxysubsubsection{internal}\label{index_autotoc_md19}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_address}{Address}} address = \mbox{\hyperlink{namespace_internal_1_1_memory_ad81f976fe9881273c945b05ffba2e732}{Internal::Memory::findSignature}}(0x7FF702CB5D00, \textcolor{stringliteral}{"? 39 05 F0 A2 F6 FF"} , 10000);}
 \end{DoxyCode}
  

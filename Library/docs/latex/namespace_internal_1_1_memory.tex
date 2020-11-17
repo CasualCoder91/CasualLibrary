@@ -1,0 +1,106 @@
+\hypertarget{namespace_internal_1_1_memory}{}\doxysection{Internal\+::Memory Namespace Reference}
+\label{namespace_internal_1_1_memory}\index{Internal::Memory@{Internal::Memory}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_ac51e90b66875b40c7c8580ba995246fe}\label{namespace_internal_1_1_memory_ac51e90b66875b40c7c8580ba995246fe}} 
+{\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline T {\bfseries read} (uintptr\+\_\+t address)
+\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_ab66052222443d969a4edc93d93d51ac0}\label{namespace_internal_1_1_memory_ab66052222443d969a4edc93d93d51ac0}} 
+{\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline T {\bfseries read} (const \mbox{\hyperlink{class_address}{Address}} add\+To\+Be\+Read) noexcept
+\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a59ad7629dfe91186f41193ce15ff90ad}\label{namespace_internal_1_1_memory_a59ad7629dfe91186f41193ce15ff90ad}} 
+{\footnotesize template$<$typename T $>$ }\\\+\_\+\+\_\+forceinline void {\bfseries write} (uintptr\+\_\+t address, T value)
+\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a1b725974cfdbb906573e218103d3d1a3}\label{namespace_internal_1_1_memory_a1b725974cfdbb906573e218103d3d1a3}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_a1b725974cfdbb906573e218103d3d1a3}{get\+Module}} (const char $\ast$mod\+Name) noexcept
+\begin{DoxyCompactList}\small\item\em returns the module base address of {\ttfamily mod\+Name} (example\+: \char`\"{}client.\+dll\char`\"{}) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a518611aaf98a0857f03aa89357a42d6d}\label{namespace_internal_1_1_memory_a518611aaf98a0857f03aa89357a42d6d}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_a518611aaf98a0857f03aa89357a42d6d}{get\+Address}} (const uintptr\+\_\+t base\+Prt, const std\+::vector$<$ uintptr\+\_\+t $>$ \&offsets) noexcept
+\begin{DoxyCompactList}\small\item\em returns the dynamic pointer from base pointer {\ttfamily base\+Prt} and {\ttfamily offsets} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a2201e6fd49b20005e4691288654dd3e6}\label{namespace_internal_1_1_memory_a2201e6fd49b20005e4691288654dd3e6}} 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_a2201e6fd49b20005e4691288654dd3e6}{get\+Address}} (\mbox{\hyperlink{class_address}{Address}} base\+Prt, const std\+::vector$<$ uintptr\+\_\+t $>$ \&offsets) noexcept
+\begin{DoxyCompactList}\small\item\em returns the dynamic pointer from base pointer {\ttfamily base\+Prt} and {\ttfamily offsets} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_ad81f976fe9881273c945b05ffba2e732}{find\+Signature}} (uintptr\+\_\+t start, const char $\ast$sig, size\+\_\+t size=0) noexcept
+\begin{DoxyCompactList}\small\item\em a basic signature scanner \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_a50a3219749f6d493918a6b29b21b1ce5}{find\+Signature}} (const \mbox{\hyperlink{class_address}{Address}} start, const char $\ast$sig, size\+\_\+t size=0) noexcept
+\begin{DoxyCompactList}\small\item\em a basic signature scanner \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_address}{Address}} \mbox{\hyperlink{namespace_internal_1_1_memory_aea94957dbaa3222136f73f10159aba65}{find\+Module\+Signature}} (const char $\ast$mod, const char $\ast$sig) noexcept
+\begin{DoxyCompactList}\small\item\em a basic signature scanner searching within the address space of one module. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a2f418f9b18b4db24da6a5b762dfd2039}\label{namespace_internal_1_1_memory_a2f418f9b18b4db24da6a5b762dfd2039}} 
+{\footnotesize template$<$typename T $>$ }\\T {\bfseries get\+Virtual\+Function} (void $\ast$base\+Class, uint32\+\_\+t index)
+\item 
+\mbox{\Hypertarget{namespace_internal_1_1_memory_acf4c489211f9d4c7e7e08fd87b9c9d67}\label{namespace_internal_1_1_memory_acf4c489211f9d4c7e7e08fd87b9c9d67}} 
+{\footnotesize template$<$typename T , typename ... Args$>$ }\\T {\bfseries call\+Virtual\+Function} (void $\ast$base\+Class, uint32\+\_\+t index, Args... args)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Serves as communicator between injected dll and the games memory.
+
+\begin{DoxyAuthor}{Author}
+Casual\+Comunity\+: tomsa, Casual\+Gamer 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+2 06.\+11.\+2020 
+\end{DoxyVersion}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]\+: optimize scanner speed, memory checks \end{DoxyRefDesc}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespace_internal_1_1_memory_aea94957dbaa3222136f73f10159aba65}\label{namespace_internal_1_1_memory_aea94957dbaa3222136f73f10159aba65}} 
+\index{Internal::Memory@{Internal::Memory}!findModuleSignature@{findModuleSignature}}
+\index{findModuleSignature@{findModuleSignature}!Internal::Memory@{Internal::Memory}}
+\doxysubsubsection{\texorpdfstring{findModuleSignature()}{findModuleSignature()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_address}{Address}} Internal\+::\+Memory\+::find\+Module\+Signature (\begin{DoxyParamCaption}\item[{const char $\ast$}]{mod,  }\item[{const char $\ast$}]{sig }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+a basic signature scanner searching within the address space of one module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mod} & name of the module (\char`\"{}client.\+dll\char`\"{}) \\
+\hline
+{\em sig} & Signature to search for. example\+: \{-\/1, 0x39, 0x05, 0x\+F0, 0x\+A2, 0x\+F6, 0x\+FF\} where -\/1 is a wild card. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_internal_1_1_memory_a50a3219749f6d493918a6b29b21b1ce5}\label{namespace_internal_1_1_memory_a50a3219749f6d493918a6b29b21b1ce5}} 
+\index{Internal::Memory@{Internal::Memory}!findSignature@{findSignature}}
+\index{findSignature@{findSignature}!Internal::Memory@{Internal::Memory}}
+\doxysubsubsection{\texorpdfstring{findSignature()}{findSignature()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_address}{Address}} Internal\+::\+Memory\+::find\+Signature (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_address}{Address}}}]{start,  }\item[{const char $\ast$}]{sig,  }\item[{size\+\_\+t}]{size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+a basic signature scanner 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start} & \mbox{\hyperlink{class_address}{Address}} where to start scanning. \\
+\hline
+{\em size} & Size of the area to search within. \\
+\hline
+{\em sig} & Signature to search for. example\+: \{-\/1, 0x39, 0x05, 0x\+F0, 0x\+A2, 0x\+F6, 0x\+FF\} where -\/1 is a wild card. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_internal_1_1_memory_ad81f976fe9881273c945b05ffba2e732}\label{namespace_internal_1_1_memory_ad81f976fe9881273c945b05ffba2e732}} 
+\index{Internal::Memory@{Internal::Memory}!findSignature@{findSignature}}
+\index{findSignature@{findSignature}!Internal::Memory@{Internal::Memory}}
+\doxysubsubsection{\texorpdfstring{findSignature()}{findSignature()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_address}{Address}} Internal\+::\+Memory\+::find\+Signature (\begin{DoxyParamCaption}\item[{uintptr\+\_\+t}]{start,  }\item[{const char $\ast$}]{sig,  }\item[{size\+\_\+t}]{size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+a basic signature scanner 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start} & \mbox{\hyperlink{class_address}{Address}} where to start scanning. \\
+\hline
+{\em size} & Size of the area to search within. \\
+\hline
+{\em sig} & Signature to search for. example\+: \{-\/1, 0x39, 0x05, 0x\+F0, 0x\+A2, 0x\+F6, 0x\+FF\} where -\/1 is a wild card. \\
+\hline
+\end{DoxyParams}

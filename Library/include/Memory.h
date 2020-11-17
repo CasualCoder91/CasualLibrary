@@ -59,8 +59,6 @@ namespace External {
             return varBuff;
         }
 
-
-
         template <typename T>
         __forceinline T write(const uintptr_t addToWrite, const T valToWrite) noexcept {
             WriteProcessMemory(handle, (LPBYTE*)addToWrite, &valToWrite, sizeof(valToWrite), nullptr);
@@ -150,6 +148,12 @@ namespace Internal
         @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
         */
         Address findSignature(const Address start, const char* sig, size_t size = 0) noexcept;
+
+        /**
+        @brief a basic signature scanner searching within the address space of one module.
+        @param mod name of the module ("client.dll")
+        @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
+        */
         Address findModuleSignature(const char* mod, const char* sig) noexcept;
 
         template<typename T>
