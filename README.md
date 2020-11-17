@@ -8,9 +8,9 @@ Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="
 
 ## Installation
 
- 1. Download current release ("CasualLibrary0.1.1.rar") from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a>
+ 1. Download current release ("CasualLibrary0.2.rar") from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a>
  2. Extract *.h and *.lib file(s) at appropriate location in your project directory.
- 3. Include them into your project: Use CasualLibraryd.lib for debug builds and CasualLibrary.lib for release builds.
+ 3. Include them into your project.
 
 ## Documentation
 
