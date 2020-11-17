@@ -98,7 +98,7 @@ int main(){
 ```cpp
 //works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
 //does NOT work for arrays/vectors
-uintptr_t address = 0x2240001C;
+Address address = Address(0x2240001C);
 // read integer stored at address
 int test = memory.read<int>(address);
 // read one word
@@ -114,7 +114,7 @@ memory.write<int>(address, 5);
 ```cpp
 //works for all types including uintptr_t, int, double etc. as well as custom structs and classes.
 //does NOT work for arrays/vectors
-uintptr_t address = 0x2240001C;
+Address address = Address(0x2240001C);
 // read integer stored at address
 int test = Internal::Memory::read<int>(address);
 //write value 5 starting at given address
@@ -123,21 +123,46 @@ Internal::Memory::write<int>(address, 5);
 
 ### get module base address
 
+#### external
+
 ```cpp
-uintptr_t clientAddr = memory.getModule("client.dll");
+Address clientAddr = memory.getModule("client.dll");
+```
+
+#### internal
+
+```cpp
+Address clientAddr = Internal::Memory::getModule("client.dll");
 ```
 
 ### get address from static pointer + offsets
 
 ![Static Pointer in CE](Library/docs/img/getAddress.png)
 
+#### external
+
 ```cpp
-uintptr_t baseAddr = memory.getModule("ZW64.exe");
-uintptr_t healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
+Address baseAddr = memory.getModule("ZW64.exe");
+Address healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
+```
+
+#### internal
+
+```cpp
+Address baseAddr = Internal::Memory::getModule("ZW64.exe");
+Address healthAddr = Internal::Memory::getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
 ```
 
 ### AOB Scanner
 
+#### external
+
 ```cpp
-uintptr_t address = memory.findSignatureAddress(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
+Address address = memory.findSignature(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
+```
+
+#### internal
+
+```cpp
+Address address = Internal::Memory::findSignature(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
 ```
