@@ -137,7 +137,7 @@ Address clientAddr = Internal::Memory::getModule("client.dll");
 
 ### get address from static pointer + offsets
 
-![Static Pointer in CE](Library/docs/img/getAddress.png)
+![Static Pointer in CE](docs/img/getAddress.png)
 
 #### external
 
