@@ -5,7 +5,7 @@ BOOL Helper::isWow64(const HANDLE process){
 
     typedef BOOL(WINAPI* LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
     LPFN_ISWOW64PROCESS fnIsWow64Process;
-    fnIsWow64Process = reinterpret_cast< LPFN_ISWOW64PROCESS > ( GetProcAddress ( GetModuleHandle ( TEXT ( "kernel32" ) ), "IsWow64Process" ) );
+    fnIsWow64Process = reinterpret_cast<LPFN_ISWOW64PROCESS>(GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process"));
 
     if (NULL != fnIsWow64Process) {
         if (!fnIsWow64Process(process, &bIsWow64)) {

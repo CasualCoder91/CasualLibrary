@@ -1,1 +1,0 @@
-this directory is used as intermediate build directory

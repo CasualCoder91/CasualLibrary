@@ -44,23 +44,32 @@ namespace External {
         Memory(const char* proc,bool debug = false);
             
         ~Memory(void) noexcept;
-
+        
+        /**
+        @brief reads a value from memory
+        @param addToBeRead address from which the value will be read.
+        */
         template <typename T>
-        __forceinline T read(const uintptr_t addToBeRead) noexcept {
+        T read(const uintptr_t addToBeRead) noexcept {
             T varBuff;
             ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToBeRead), &varBuff, sizeof(varBuff), nullptr);
             return varBuff;
         }
 
         template <typename T>
-        __forceinline T read(const Address addToBeRead) noexcept {
+        T read(const Address addToBeRead) noexcept {
             T varBuff;
             ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToBeRead.get()), &varBuff, sizeof(varBuff), nullptr);
             return varBuff;
         }
 
+        /**
+        @brief writes a value to memory
+        @param addToWrite address to which the value will be written to.
+        @param valToWrite the value that gets written to desired address.
+        */
         template <typename T>
-        __forceinline T write(const uintptr_t addToWrite, const T valToWrite) noexcept {
+        T write(const uintptr_t addToWrite, const T valToWrite) noexcept {
             WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);
             return valToWrite;
         }
@@ -112,19 +121,32 @@ namespace Internal
     */
     namespace Memory
     {
+        /**
+         @brief reads a value from memory
+         @param address address from which the value will be read.
+         */
         template<typename T> 
-        __forceinline T read(uintptr_t address) {
-            return *static_cast<T*> ( address );
+        T read(uintptr_t address) {
+            return *reinterpret_cast<T*>(address);
         }
 
+        /**
+        @brief reads a value from memory
+        @param addToBeRead address from which the value will be read.
+        */
         template <typename T>
-        __forceinline T read(const Address addToBeRead) noexcept {
-            return *static_cast<T*> ( addToBeRead.get ( ) );
+        T read(const Address addToBeRead) noexcept {
+            return *reinterpret_cast<T*>(addToBeRead.get ( ));
         }
 
+        /**
+        @brief writes a value to memory
+        @param address address to which the value will be written to.
+        @param value the value that gets written to desired address.
+        */
         template<typename T> 
-        __forceinline void write(uintptr_t address, T value) {
-            try { *static_cast<T*> ( address ) = value; }
+        void write(uintptr_t address, T value) {
+            try { *reinterpret_cast<T*>(address) = value; }
             catch (...) { return; }
         }
 
