@@ -12,7 +12,7 @@ std::string getLastErrorAsString()
 
     LPSTR messageBuffer = nullptr;
     size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+        NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&messageBuffer), 0, NULL);
 
     std::string message(messageBuffer, size);
 
@@ -73,7 +73,7 @@ namespace External {
 
         std::vector<char> chars(size);
         
-        if (!ReadProcessMemory(handle, (LPBYTE*)addToBeRead, chars.data(), size, NULL) && debug) {
+        if (!ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToBeRead), chars.data(), size, NULL) && debug) {
             std::cout << getLastErrorAsString() << std::endl;
         };
 
@@ -95,7 +95,7 @@ namespace External {
         pEntry.dwSize = sizeof(pEntry);
 
         do{
-            if (!strcmp((char*)pEntry.szExeFile, proc)){
+            if (!strcmp(static_cast<char*> (pEntry.szExeFile), proc)){
                 this->processID = pEntry.th32ProcessID;
                 CloseHandle(hProcessId);
                 this->handle = OpenProcess(access, false, this->processID);
@@ -118,7 +118,7 @@ namespace External {
         mEntry.dwSize = sizeof(mEntry);
 
         do{
-            if (!strcmp(modName, (char*)mEntry.szModule)){
+            if (!strcmp(modName, static_cast<char*> (mEntry.szModule))){
                 CloseHandle(hModule);
                 return reinterpret_cast<uintptr_t>(mEntry.hModule);
             }
@@ -128,7 +128,7 @@ namespace External {
 
     Address Memory::getAddress(uintptr_t addr, const std::vector<uintptr_t>& vect) noexcept {
         for (size_t i = 0; i < vect.size(); i++){
-            if (!ReadProcessMemory(handle, (BYTE*)(addr), &addr, sizeof(addr), 0) && debug) {
+            if (!ReadProcessMemory(handle, reinterpret_cast<BYTE*>(addr), &addr, sizeof(addr), 0) && debug) {
                 std::cout << getLastErrorAsString() << std::endl;
             }
             addr += vect[i];
@@ -153,12 +153,12 @@ namespace External {
         std::vector<int> patternBytes = patternToBytes(signature);
         BYTE* data = new BYTE[size];
 
-        if (!ReadProcessMemory(handle, (LPVOID)(start), data, size, nullptr) && debug) {
+        if (!ReadProcessMemory(handle, reinterpret_cast<LPVOID>(start), data, size, nullptr) && debug) {
             std::cout << getLastErrorAsString() << std::endl;
         }
 
         for (std::size_t i = 0; i < size; ++i){
-            if (memoryCompare((const BYTE*)(data + i), patternBytes)) {
+            if (memoryCompare(static_cast<const BYTE*>(data + i), patternBytes)) {
                 delete[] data;
                 return start + i;
             }
@@ -181,7 +181,7 @@ namespace Internal{
 
             if (Module32First(snapshot, &modEntry)){
                 do{
-                    if (!strcmp(mod, (char*)modEntry.szModule)){
+                    if (!strcmp(mod, static_cast<char*>(modEntry.szModule))){
                         CloseHandle(snapshot);
                         return reinterpret_cast<uintptr_t>(modEntry.hModule);
                     }

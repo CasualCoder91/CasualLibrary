@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 #include <dbghelp.h> //needed for ImageNtHeader
 

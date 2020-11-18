@@ -35,7 +35,7 @@ public:
         return ptr;
     }
 
-    template < typename T >
+    template <typename T>
     T get()
     {
         return reinterpret_cast<T>(ptr);

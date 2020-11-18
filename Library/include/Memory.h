@@ -48,20 +48,20 @@ namespace External {
         template <typename T>
         __forceinline T read(const uintptr_t addToBeRead) noexcept {
             T varBuff;
-            ReadProcessMemory(handle, (LPBYTE*)addToBeRead, &varBuff, sizeof(varBuff), nullptr);
+            ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToBeRead), &varBuff, sizeof(varBuff), nullptr);
             return varBuff;
         }
 
         template <typename T>
         __forceinline T read(const Address addToBeRead) noexcept {
             T varBuff;
-            ReadProcessMemory(handle, (LPBYTE*)addToBeRead.get(), &varBuff, sizeof(varBuff), nullptr);
+            ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToBeRead.get()), &varBuff, sizeof(varBuff), nullptr);
             return varBuff;
         }
 
         template <typename T>
         __forceinline T write(const uintptr_t addToWrite, const T valToWrite) noexcept {
-            WriteProcessMemory(handle, (LPBYTE*)addToWrite, &valToWrite, sizeof(valToWrite), nullptr);
+            WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);
             return valToWrite;
         }
 
@@ -79,15 +79,15 @@ namespace External {
         /**
         @brief a basic signature scanner
         @param start Address where to start scanning.
+        @param sig Signature to search, for example: "? 39 05 F0 A2 F6 FF" where "?" (-1) is a wildcard.
         @param size Size of the area to search within.
-        @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
         */
         Address findSignature(const uintptr_t start, const char* sig, const size_t size) noexcept;
         Address findSignature(const Address start, const char* sig, const size_t size) noexcept;
 
     private:
         /** @brief handle of the target process */
-        HANDLE handle;
+        HANDLE handle = nullptr;
         /** @brief ID of the target process */
         DWORD processID = 0;
         /** @brief debug flag. Set true for debug messages*/
@@ -114,17 +114,17 @@ namespace Internal
     {
         template<typename T> 
         __forceinline T read(uintptr_t address) {
-            return *(T*)address;
+            return *static_cast<T*> ( address );
         }
 
         template <typename T>
         __forceinline T read(const Address addToBeRead) noexcept {
-            return *(T*)addToBeRead.get();
+            return *static_cast<T*> ( addToBeRead.get ( ) );
         }
 
         template<typename T> 
         __forceinline void write(uintptr_t address, T value) {
-            try { *(T*)address = value; }
+            try { *static_cast<T*> ( address ) = value; }
             catch (...) { return; }
         }
 
@@ -137,30 +137,39 @@ namespace Internal
         /**
         @brief a basic signature scanner
         @param start Address where to start scanning.
+        @param sig Signature to search, for example: "? 39 05 F0 A2 F6 FF" where "?" (-1) is a wildcard.
         @param size Size of the area to search within.
-        @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
         */
         Address findSignature(uintptr_t start, const char* sig, size_t size = 0) noexcept;
-        /**
-        @brief a basic signature scanner
-        @param start Address where to start scanning.
-        @param size Size of the area to search within.
-        @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
-        */
         Address findSignature(const Address start, const char* sig, size_t size = 0) noexcept;
 
         /**
+        DO NOT IGNORE: YOU ALWAYS HAVE TO USE THIS FUNCTION (findModuleSignature) WHEN SCANNING FOR SIGNATURES,
+        BECAUSE IT RECEIVES THE MODULE BASE AND SIZE OF IMAGE, YOU SHOULD THINK OF IT AS A WRAPPER FOR THE findSignature FUNCTION.
         @brief a basic signature scanner searching within the address space of one module.
         @param mod name of the module ("client.dll")
-        @param sig Signature to search for. example: {-1, 0x39, 0x05, 0xF0, 0xA2, 0xF6, 0xFF} where -1 is a wild card.
+        @param sig Signature to search, for example: "? 39 05 F0 A2 F6 FF" where "?" (-1) is a wildcard.
         */
         Address findModuleSignature(const char* mod, const char* sig) noexcept;
 
+
+        /**
+         @brief gets a virtual function via vtable index, don't use this, use callVirtualFunction,
+         the only reason this is here is because its wrapped around callVirtualFunction.
+         @param baseClass vtable type
+         @param index index in vtable
+         */
         template<typename T>
         T getVirtualFunction(void* baseClass, uint32_t index){
             return (*static_cast<T**>(baseClass))[index];
         }
 
+        /**
+        @brief calls a virtual function
+        @param baseClass vtable type
+        @param index index in vtable
+        @param args the function's parameters
+        */
         template<typename T, typename ... Args>
         T callVirtualFunction(void* baseClass, uint32_t index, Args... args){
             return getVirtualFunction<T(__thiscall*)(void*, Args...)>(baseClass, index)(baseClass, args...);
