@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Memory.h"
+#include <CasualLibrary.hpp>
 
 inline const char* const BoolToString(bool b) {
     return b ? "OK" : "Failed";
@@ -10,21 +10,21 @@ inline const char* const BoolToString(bool b) {
 int main() {
     std::cout << "Running tests ...\n\n";
 
-    External::Memory memory = External::Memory("ZombieWar.exe");
-    Address modulePtr = memory.getModule("ZombieWar.exe");
+    Memory::External external = Memory::External("ZombieWar.exe");
+    Address modulePtr = external.getModule("ZombieWar.exe");
 
-    Address namePtr = memory.getAddress(modulePtr + 0x00003648, { 0x40 }).get();
+    Address namePtr = external.getAddress(modulePtr + 0x00003648, { 0x40 }).get();
 
     std::cout << "Status readString(addToBeRead):       ";
-    std::cout << BoolToString(memory.readString(namePtr) == "CasualGamer") << std::endl;
+    std::cout << BoolToString(external.read<std::string>(namePtr) == "CasualGamer") << std::endl;
 
     std::cout << "Status readString(addToBeRead, size): ";
-    std::cout << BoolToString(memory.readString(namePtr, 5) == "Casua") << std::endl;
+    std::cout << BoolToString(external.readString(namePtr, 5) == "Casua") << std::endl;
 
-    std::cout << "Status memory.read<T>(addToBeRead):   ";
-    std::cout << BoolToString(memory.read<int>(namePtr) == 1970495811) << std::endl;
+    std::cout << "Status external.read<T>(addToBeRead):   ";
+    std::cout << BoolToString(external.read<int>(namePtr) == 1970495811) << std::endl;
 
-    Address address = memory.findSignature(modulePtr, "BA ? ? ? ? CD", 100);
+    Address address = external.findSignature(modulePtr, "BA ? ? ? ? CD", 100);
     std::cout << "Status findSignature(...):            ";
     std::cout << BoolToString(address.get()) << std::endl;
 

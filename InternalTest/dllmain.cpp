@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <iostream>
 
-#include <Memory.h>
+#include <CasualLibrary.hpp>
 
 HMODULE myhModule;
 
@@ -21,9 +21,9 @@ DWORD WINAPI Menue() {
     freopen_s(&fp, "CONOUT$", "w", stdout); // output only
     std::cout << "Running tests ...\n\n";
 
-    Address modulePtr = Internal::Memory::getModule("ZombieWar.exe");
+    Address modulePtr = Memory::Internal::getModule("ZombieWar.exe");
 
-    Address namePtr = Internal::Memory::getAddress(modulePtr + 0x00003648, { 0x40 }).get();
+    Address namePtr = Memory::Internal::getAddress(modulePtr + 0x00003648, { 0x40 }).get();
 
     /*std::cout << "Status readString(addToBeRead):       ";
     std::cout << BoolToString(Internal::Memory::readString(namePtr) == "CasualGamer") << std::endl;
@@ -32,9 +32,9 @@ DWORD WINAPI Menue() {
     std::cout << BoolToString(memory.readString(namePtr, 5) == "Casua") << std::endl;*/
 
     std::cout << "Status memory.read<T>(addToBeRead):   ";
-    std::cout << BoolToString(Internal::Memory::read<int>(namePtr) == 1970495811) << std::endl;
+    std::cout << BoolToString(Memory::Internal::read<int>(namePtr) == 1970495811) << std::endl;
 
-    uintptr_t address = Internal::Memory::findSignature(modulePtr, "BA ? ? ? ? CD", 100).get();
+    uintptr_t address = Memory::Internal::findSignature(modulePtr, "BA ? ? ? ? CD", 100).get();
     std::cout << "Status findSignature(...):            ";
     std::cout << BoolToString(address) << std::endl;
     while (1) {

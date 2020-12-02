@@ -44,8 +44,14 @@ namespace Memory {
                 MEMORY_BASIC_INFORMATION mbi;
                 VirtualQueryEx(handle, reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
 
-                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS))
-                    return -1;
+                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                    if constexpr (!std::is_same<T, std::string>::value){
+                        return -1; 
+                    }
+                    if constexpr (std::is_same<T, std::string>::value) {
+                        return "";
+                    }
+                }
             }
 
 #ifdef CPP17GRT
@@ -84,8 +90,8 @@ namespace Memory {
             WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);
             return valToWrite;
         }
-
-        [[deprecated("use read function with std::string/const char* template argument")]] [[nodiscard]] std::string readString(const uintptr_t addToBeRead, std::size_t size = 0) noexcept;
+        //[[deprecated("use read function with std::string/const char* template argument")]] [[nodiscard]] 
+        std::string readString(const uintptr_t addToBeRead, std::size_t size = 0) noexcept;
 
         /**@brief returns process id of the target process*/
         [[nodiscard]] DWORD getProcessID(void) noexcept;

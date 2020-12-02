@@ -74,29 +74,29 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)InternalTest\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)InternalTest\temp\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Library;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)InternalTest\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)InternalTest\temp\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Library;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)InternalTest\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)InternalTest\temp\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Library;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)InternalTest\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)InternalTest\temp\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Library;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Library\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
