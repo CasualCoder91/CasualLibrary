@@ -45,12 +45,13 @@ namespace Memory {
                 VirtualQueryEx(handle, reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
 
                 if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
-                    if constexpr (!std::is_same<T, std::string>::value){
-                        return -1; 
-                    }
-                    if constexpr (std::is_same<T, std::string>::value) {
-                        return "";
-                    }
+                    //if constexpr (!std::is_same<T, std::string>::value){
+                    //    return -1; 
+                    //}
+                    //if constexpr (std::is_same<T, std::string>::value) {
+                    //    return "";
+                    //}
+                    return T{};
                 }
             }
 
