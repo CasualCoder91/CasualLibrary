@@ -91,8 +91,8 @@ namespace Memory {
             WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);
             return valToWrite;
         }
-        //[[deprecated("use read function with std::string/const char* template argument")]] [[nodiscard]] 
-        std::string readString(const uintptr_t addToBeRead, std::size_t size = 0) noexcept;
+
+        [[deprecated("use read function with std::string/const char* template argument")]] [[nodiscard]] std::string readString(const uintptr_t addToBeRead, std::size_t size = 0) noexcept;
 
         /**@brief returns process id of the target process*/
         [[nodiscard]] DWORD getProcessID(void) noexcept;
