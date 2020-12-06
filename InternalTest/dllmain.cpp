@@ -19,23 +19,26 @@ DWORD WINAPI Menue() {
     AllocConsole();
     FILE* fp;
     freopen_s(&fp, "CONOUT$", "w", stdout); // output only
-    std::cout << "Running tests ...\n\n";
+    std::cout << "Running internal tests ...\n\n";
 
     Address modulePtr = Memory::Internal::getModule("ZombieWar.exe");
 
     Address namePtr = Memory::Internal::getAddress(modulePtr + 0x00003648, { 0x40 }).get();
 
-    /*std::cout << "Status readString(addToBeRead):       ";
-    std::cout << BoolToString(Internal::Memory::readString(namePtr) == "CasualGamer") << std::endl;
+    std::cout << "Status Internal::read<std::string>:       ";
+    std::cout << BoolToString(Memory::Internal::read<std::string>(namePtr) == "CasualGamer") << std::endl;
 
-    std::cout << "Status readString(addToBeRead, size): ";
+    /*std::cout << "Status readString(addToBeRead, size): ";
     std::cout << BoolToString(memory.readString(namePtr, 5) == "Casua") << std::endl;*/
 
-    std::cout << "Status memory.read<T>(addToBeRead):   ";
+    std::cout << "Status Internal::read<T>(addToBeRead):   ";
     std::cout << BoolToString(Memory::Internal::read<int>(namePtr) == 1970495811) << std::endl;
 
+    std::cout << "Status Internal::read<T>(addToBeRead,true):   ";
+    std::cout << BoolToString(Memory::Internal::read<int>(0x7FF6C64A9014, true)==0) << std::endl; //try reading inside PAGE_NOACCESS block
+
     uintptr_t address = Memory::Internal::findSignature(modulePtr, "BA ? ? ? ? CD", 100).get();
-    std::cout << "Status findSignature(...):            ";
+    std::cout << "Status Internal::findSignature(...):            ";
     std::cout << BoolToString(address) << std::endl;
     while (1) {
         Sleep(100);

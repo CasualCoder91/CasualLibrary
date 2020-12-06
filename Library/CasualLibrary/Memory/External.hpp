@@ -22,7 +22,6 @@
 #include "../Helper.hpp"
 #include "../Address.hpp"
 #include "Memory.hpp"
-#include "../Macros.hpp"
 
 namespace Memory {
     class External final
@@ -45,12 +44,6 @@ namespace Memory {
                 VirtualQueryEx(handle, reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
 
                 if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
-                    //if constexpr (!std::is_same<T, std::string>::value){
-                    //    return -1; 
-                    //}
-                    //if constexpr (std::is_same<T, std::string>::value) {
-                    //    return "";
-                    //}
                     return T{};
                 }
             }
@@ -133,11 +126,11 @@ namespace Memory {
         bool init(const char* proc, const DWORD access = PROCESS_ALL_ACCESS) noexcept;
 
         // Sadly, only C++17 feature because of the folding
-#ifdef CPP17GRT
-        template<typename T, typename... Ts>
-        [[nodiscard]] constexpr bool is_any_type(void) noexcept {
-            return (std::is_same_v<T, Ts> || ...);
-        }
-#endif
+//#ifdef CPP17GRT
+//        template<typename T, typename... Ts>
+//        [[nodiscard]] constexpr bool is_any_type(void) noexcept {
+//            return (std::is_same_v<T, Ts> || ...);
+//        }
+//#endif
     };
 }

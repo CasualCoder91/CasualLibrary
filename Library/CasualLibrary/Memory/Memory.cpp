@@ -20,6 +20,16 @@
     return message;
 }
 
+[[nodiscard]] std::string Memory::convertToString(char* a, int size) noexcept
+{
+    int i;
+    std::string s = "";
+    for (i = 0; i < size; i++) {
+        s = s + a[i];
+    }
+    return s;
+}
+
 [[nodiscard]] std::vector<int> Memory::patternToBytes(const char* pattern) noexcept 
 {
     std::vector<int> bytes{};

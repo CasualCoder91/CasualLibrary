@@ -15,11 +15,11 @@ int main() {
 
     Address namePtr = external.getAddress(modulePtr + 0x00003648, { 0x40 }).get();
 
-    std::cout << "Status readString(addToBeRead):       ";
+    std::cout << "Status external.read<std::string>(addToBeRead):       ";
     std::cout << BoolToString(external.read<std::string>(namePtr) == "CasualGamer") << std::endl;
 
-    std::cout << "Status readString(addToBeRead, size): ";
-    std::cout << BoolToString(external.readString(namePtr, 5) == "Casua") << std::endl;
+    //std::cout << "Status readString(addToBeRead, size): ";
+    //std::cout << BoolToString(external.readString(namePtr, 5) == "Casua") << std::endl;
 
     std::cout << "Status external.read<T>(addToBeRead):   ";
     std::cout << BoolToString(external.read<int>(namePtr) == 1970495811) << std::endl;

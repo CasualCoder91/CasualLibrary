@@ -29,10 +29,35 @@ namespace Memory {
         /**
         @brief reads a value from memory
         @param addToBeRead address from which the value will be read.
+        @param memoryCheck flag if true memory protection will be checked before reading.
         */
         template <typename T>
-        [[nodiscard]] T read(const Address& addToBeRead) noexcept {
-            return *reinterpret_cast<T*>(addToBeRead.get());
+        [[nodiscard]] T read(const Address& addToBeRead, const bool memoryCheck = false) noexcept {
+            const uintptr_t address = addToBeRead.get();
+
+            if (memoryCheck) {
+                MEMORY_BASIC_INFORMATION mbi;
+                VirtualQuery(reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
+
+                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                    return T{};
+                }
+            }
+
+#ifdef CPP17GRT
+            if constexpr (is_any_type<T, const char*, std::string, char*>()) {
+                constexpr const std::size_t size = 200;
+                char chars[size] = "";
+                memcpy(chars,reinterpret_cast<char*>(address),size);
+
+                int sizeString = sizeof(chars) / sizeof(char);
+                const std::string name = convertToString(chars, sizeString);
+
+                return name.substr(0, name.find('\0'));;
+            }
+#endif
+
+            return *reinterpret_cast<T*>(address);
         }
 
         /**
@@ -97,5 +122,6 @@ namespace Memory {
         T callVirtualFunction(const void* baseClass, const uint32_t index, Args&&... args) noexcept {
             return getVirtualFunction<T(__thiscall*)(void*, Args&&...)>(baseClass, index)(baseClass, std::forward<Args>(args)...);
         }
+
     }
 }
