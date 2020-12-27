@@ -37,7 +37,7 @@ namespace Memory {
         bool DLLInject(const std::string& DllPath) {
             char szDllPath[MAX_PATH];
             GetCurrentDirectoryA(MAX_PATH, szDllPath);
-            strcat_s(szDllPath, DllPath);
+            strcat_s(szDllPath, DllPath.c_str());
 
             auto m_hProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, false, this->processID);
 
