@@ -31,6 +31,36 @@ namespace Memory {
         External(const char* proc, bool debug = false) noexcept;
         ~External(void) noexcept;
 
+        /*
+        @brief uses loadlibrary from kernal32 to inject a dll into another process
+        */
+        bool DLLInject(const std::string& DllPath) {
+            char szDllPath[MAX_PATH];
+            GetCurrentDirectoryA(MAX_PATH, szDllPath);
+            strcat_s(szDllPath, DllPath.c_str());
+
+            auto m_hProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, false, this->processID);
+
+            auto pLoadLibrary = GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA");
+            if (!pLoadLibrary)
+                return false;
+
+            auto pAllocAddress = reinterpret_cast<std::uintptr_t>(VirtualAllocEx(m_hProcessHandle, 0, strlen(szDllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
+            if (!pAllocAddress)
+                return false;
+
+            if (!WriteProcessMemory(m_hProcessHandle, reinterpret_cast<PVOID>(pAllocAddress), szDllPath, strlen(szDllPath) + 1, 0))
+                return false;
+
+            auto hThread = CreateRemoteThread(m_hProcessHandle, 0, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(pLoadLibrary), reinterpret_cast<LPVOID>(pAllocAddress), 0, 0);
+            if (hThread == INVALID_HANDLE_VALUE)
+                return false;
+
+            WaitForSingleObject(hThread, INFINITE);
+            VirtualFreeEx(m_hProcessHandle, reinterpret_cast<LPVOID>(pAllocAddress), 0, MEM_RELEASE);
+
+            return true;
+        }
         /**
         @brief reads a value from memory, supports strings in C++17 or greater.
         @param addToBeRead address from which the value will be read.
