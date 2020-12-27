@@ -34,7 +34,7 @@ namespace Memory {
         /*
         @brief uses loadlibrary from kernal32 to inject a dll into another process
         */
-        [[nodiscard]] bool DLLInject(char* DllPath) {
+        bool DLLInject(const std::string& DllPath) {
             char szDllPath[MAX_PATH];
             GetCurrentDirectoryA(MAX_PATH, szDllPath);
             strcat_s(szDllPath, DllPath);
