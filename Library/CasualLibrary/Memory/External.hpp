@@ -64,6 +64,7 @@ namespace Memory {
         /**
         @brief reads a value from memory, supports strings in C++17 or greater.
         @param addToBeRead address from which the value will be read.
+        @param memoryCheck flag if true memory protection will be checked/changed before reading.
         */
         template <typename T>
         [[nodiscard]] T read(const Address& addToBeRead, const bool memoryCheck = false) noexcept {
@@ -73,9 +74,38 @@ namespace Memory {
                 MEMORY_BASIC_INFORMATION mbi;
                 VirtualQueryEx(handle, reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
 
-                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                if (!(mbi.State & MEM_COMMIT)) {
                     return T{};
                 }
+
+                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                    if (!VirtualProtectEx(handle, mbi.BaseAddress, mbi.RegionSize, PAGE_READWRITE, &mbi.Protect)) {
+                        return T{};
+                    }
+
+#ifdef CPP17GRT
+                    if constexpr (is_any_type<T, const char*, std::string, char*>()) {
+                        constexpr const std::size_t size = 200;
+                        std::vector<char> chars(size);
+                        if (!ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(address), chars.data(), size, NULL) && debug)
+                            std::cout << getLastErrorAsString() << std::endl;
+
+                        const std::string name(chars.begin(), chars.end());
+                        DWORD dwOldProtect;
+                        VirtualProtectEx(handle, mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+
+                        return name.substr(0, name.find('\0'));;
+                    }
+#endif
+
+                    T varBuff;
+                    ReadProcessMemory(handle, reinterpret_cast<LPBYTE*>(address), &varBuff, sizeof(varBuff), nullptr);
+
+                    DWORD dwOldProtect;
+                    VirtualProtectEx(handle, mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+                    return varBuff;
+                }
+
             }
 
 #ifdef CPP17GRT
@@ -100,6 +130,7 @@ namespace Memory {
         @brief writes a value to memory
         @param addToWrite address to which the value will be written to.
         @param valToWrite the value that gets written to desired address.
+        @param memoryCheck flag if true memory protection will be checked/changed before writing.
         */
         template <typename T>
         T write(const uintptr_t addToWrite, const T valToWrite, const bool memoryCheck = false) noexcept {
@@ -107,8 +138,22 @@ namespace Memory {
                 MEMORY_BASIC_INFORMATION mbi;
                 VirtualQueryEx(handle, reinterpret_cast<LPCVOID>(addToWrite), &mbi, sizeof(mbi));
 
-                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS) || mbi.Protect & PAGE_READONLY)
-                    return -1;
+                if (!(mbi.State & MEM_COMMIT)) {
+                    return T{};
+                }
+
+                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS | PAGE_READONLY)) {
+                    if (!VirtualProtectEx(handle, mbi.BaseAddress, mbi.RegionSize, PAGE_READWRITE, &mbi.Protect)) {
+                        return T{};
+                    }
+
+                    WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);
+
+                    DWORD dwOldProtect;
+                    VirtualProtectEx(handle, mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+                    return valToWrite;
+                }
+
             }
 
             WriteProcessMemory(handle, reinterpret_cast<LPBYTE*>(addToWrite), &valToWrite, sizeof(valToWrite), nullptr);

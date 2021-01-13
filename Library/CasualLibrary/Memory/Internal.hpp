@@ -29,7 +29,7 @@ namespace Memory {
         /**
         @brief reads a value from memory
         @param addToBeRead address from which the value will be read.
-        @param memoryCheck flag if true memory protection will be checked before reading.
+        @param memoryCheck flag if true memory protection will be checked/changed before reading.
         */
         template <typename T>
         [[nodiscard]] T read(const Address& addToBeRead, const bool memoryCheck = false) noexcept {
@@ -39,8 +39,35 @@ namespace Memory {
                 MEMORY_BASIC_INFORMATION mbi;
                 VirtualQuery(reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
 
-                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                if (!(mbi.State & MEM_COMMIT)) {
                     return T{};
+                }
+
+                if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                    if (!VirtualProtect(mbi.BaseAddress, mbi.RegionSize, PAGE_READWRITE, &mbi.Protect)) {
+                        return T{};
+                    }
+
+#ifdef CPP17GRT
+                    if constexpr (is_any_type<T, const char*, std::string, char*>()) {
+                        constexpr const std::size_t size = 200;
+                        char chars[size] = "";
+                        memcpy(chars, reinterpret_cast<char*>(address), size);
+
+                        int sizeString = sizeof(chars) / sizeof(char);
+                        const std::string name = convertToString(chars, sizeString);
+
+                        DWORD dwOldProtect;
+                        VirtualProtect(mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+                        return name.substr(0, name.find('\0'));;
+                    }
+#endif
+
+                    T returnValue = *reinterpret_cast<T*>(address);
+
+                    DWORD dwOldProtect;
+                    VirtualProtect(mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+                    return returnValue;
                 }
             }
 
@@ -64,10 +91,31 @@ namespace Memory {
         @brief writes a value to memory
         @param address address to which the value will be written to.
         @param value the value that gets written to desired address.
+        @param memoryCheck flag if true memory protection will be checked/changed before writing.
         */
         template<typename T>
-        void write(const uintptr_t address, const T value) noexcept {
+        void write(const uintptr_t address, const T value, const bool memoryCheck = false) noexcept {
             try { 
+                if (memoryCheck) {
+                    MEMORY_BASIC_INFORMATION mbi;
+                    VirtualQuery(reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi));
+
+                    if (!(mbi.State & MEM_COMMIT)) {
+                        return;
+                    }
+
+                    if (mbi.Protect & (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS)) {
+                        if (!VirtualProtect(mbi.BaseAddress, mbi.RegionSize, PAGE_READWRITE, &mbi.Protect)) {
+                            return;
+                        }
+
+                        *reinterpret_cast<T*>(address) = value;
+
+                        DWORD dwOldProtect;
+                        VirtualProtect(mbi.BaseAddress, mbi.RegionSize, mbi.Protect, &dwOldProtect);
+                        return;
+                    }
+                }
                 *reinterpret_cast<T*>(address) = value;
             } catch (...) {
                 return;
