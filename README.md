@@ -105,6 +105,9 @@ int test = memory.read<int>(address);
 std::string word = memory.read<std::string>(address);
 //write value 5 starting at given address
 memory.write<int>(address, 5);
+//To check the memory before accessing it set memoryCheck = true
+int testSave = memory.read<int>(address, true);
+memory.write<int>(address, 5, true);
 ```
 
 #### internal
@@ -119,6 +122,9 @@ int test = Memory::Internal::read<int>(address);
 std::string word = Memory::Internal::read<std::string>(address);
 //write value 5 starting at given address
 Memory::Internal::write<int>(address, 5);
+//To check the memory before accessing it set memoryCheck = true
+int testSave = Memory::Internal::read<int>(address, true);
+Memory::Internal::write<int>(address, 5, true);
 ```
 
 ### get module base address
