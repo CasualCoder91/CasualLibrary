@@ -8,7 +8,7 @@ Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="
 
 ## Installation
 
- 1. Download current release ("CasualLibrary0.2.rar") from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a>
+ 1. Download current release ("CasualLibrary1.0.rar") from <a href="https://github.com/CasualCoder91/CasualLibrary/releases/" target="_blank">the release section</a>
  2. Extract *.h and *.lib file(s) at appropriate location in your project directory.
  3. Include them into your project.
 
@@ -101,10 +101,8 @@ int main(){
 Address address = Address(0x2240001C);
 // read integer stored at address
 int test = memory.read<int>(address);
-// read one word
-std::string word = memory.readString(address);
-//read 200 chars
-std::string text = memory.readString(address, 200);
+// read string
+std::string word = memory.read<std::string>(address);
 //write value 5 starting at given address
 memory.write<int>(address, 5);
 ```
@@ -117,6 +115,8 @@ memory.write<int>(address, 5);
 Address address = Address(0x2240001C);
 // read integer stored at address
 int test = Internal::Memory::read<int>(address);
+// read string
+std::string word = Memory::Internal::read<std::string>(address);
 //write value 5 starting at given address
 Internal::Memory::write<int>(address, 5);
 ```
