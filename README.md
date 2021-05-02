@@ -114,11 +114,11 @@ memory.write<int>(address, 5);
 //does NOT work for arrays/vectors
 Address address = Address(0x2240001C);
 // read integer stored at address
-int test = Internal::Memory::read<int>(address);
+int test = Memory::Internal::read<int>(address);
 // read string
 std::string word = Memory::Internal::read<std::string>(address);
 //write value 5 starting at given address
-Internal::Memory::write<int>(address, 5);
+Memory::Internal::write<int>(address, 5);
 ```
 
 ### get module base address
