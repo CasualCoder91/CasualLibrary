@@ -149,8 +149,8 @@ Address healthAddr = memory.getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
 #### internal
 
 ```cpp
-Address baseAddr = Internal::Memory::getModule("ZW64.exe");
-Address healthAddr = Internal::Memory::getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
+Address baseAddr = Memory::Internal::getModule("ZW64.exe");
+Address healthAddr = Memory::Internal::getAddress(baseAddr+0x00003648, { 0x40,0xE4 });
 ```
 
 ### AOB Scanner
@@ -164,5 +164,5 @@ Address address = memory.findSignature(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 1
 #### internal
 
 ```cpp
-Address address = Internal::Memory::findSignature(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
+Address address = Memory::Internal::findSignature(0x7FF702CB5D00, "? 39 05 F0 A2 F6 FF" , 10000);
 ```
