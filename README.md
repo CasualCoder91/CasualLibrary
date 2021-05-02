@@ -27,8 +27,8 @@ The main set of documentation can be found <a href="https://casualcoder91.github
 #include "Memory.h"
 
 int main(){
-    External::Memory memory = External::Memory("target.exe");
-    External::Memory memoryDebug = External::Memory("target.exe", true); //use for debug messages
+    Memory::External memory = Memory::External("target.exe");
+    Memory::External memoryDebug = Memory::External("target.exe", true); //use for debug messages
 }
 ```
 
