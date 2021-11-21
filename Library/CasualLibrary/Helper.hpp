@@ -5,9 +5,6 @@
 #endif
 
 #include <Windows.h>
-#include <dbghelp.h> // ImageNtHeader
-
-#pragma comment(lib, "dbghelp.lib")
 
 #ifdef _MSC_VER
 #pragma warning(push)

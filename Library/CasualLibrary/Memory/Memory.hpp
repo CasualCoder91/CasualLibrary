@@ -22,6 +22,10 @@
 #include "../Address.hpp"
 #include "../Macros.hpp"
 
+#ifndef TH32CS_SNAPMODULE32
+#define TH32CS_SNAPMODULE32 0x00000010
+#endif
+
 namespace Memory {
 	[[nodiscard]] std::vector<int> patternToBytes(const char* pattern) noexcept;
 	[[nodiscard]] std::string getLastErrorAsString(void) noexcept;

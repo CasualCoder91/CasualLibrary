@@ -20,11 +20,9 @@ namespace {
     }
 
     bool is86(const HANDLE process) noexcept {
-        SYSTEM_INFO systemInfo = { 0 };
-        GetNativeSystemInfo(&systemInfo);
 
         // x86 environment
-        if (systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
+        if (sizeof(void*)==4)
             return true;
 
         // Check if the process is an x86 process that is running on x64 environment.

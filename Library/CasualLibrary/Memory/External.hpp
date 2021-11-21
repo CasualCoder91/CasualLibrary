@@ -23,6 +23,7 @@
 #include "../Address.hpp"
 #include "Memory.hpp"
 
+
 namespace Memory {
     class External final
     {
@@ -37,7 +38,7 @@ namespace Memory {
         bool DLLInject(const std::string& DllPath) {
             char szDllPath[MAX_PATH];
             GetCurrentDirectoryA(MAX_PATH, szDllPath);
-            strcat_s(szDllPath, DllPath.c_str());
+            strcat(szDllPath, DllPath.c_str()); //not using strcat_s for GCC support
 
             auto m_hProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, false, this->processID);
 
