@@ -12,6 +12,21 @@ Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="
  2. Extract *.h and *.lib file(s) at appropriate location in your project directory.
  3. Include them into your project.
 
+## Build from source
+
+If You want or need to build the project from source, You can eighter 
+ 1. Download the whole repository
+ 2. Open the VS project (CasualLibrary.sln) with Visual Studio
+ 3. Right click the CasualLibrary and hit build
+
+Or use cmake
+1. Create new folder in the projects root directory: ```mkdir build```
+2. Navigate to the new folder: ```cd build```
+3. Run cmake: ```cmake ..```
+4. Build: ```cmake --build .```
+   (tested with "Visual Studio 16 2019" and "GNU 6.3.0"/"MinGW Makefiles")
+
+
 <!---## Documentation
 
 The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a>--->
