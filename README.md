@@ -12,10 +12,9 @@ Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="
  2. Extract *.h and *.lib file(s) at appropriate location in your project directory.
  3. Include them into your project.
 
-## Documentation
+<!---## Documentation
 
-The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a>
-
+The main set of documentation can be found <a href="https://casualcoder91.github.io/CasualLibrary/html/index.html" target="_blank">here</a>--->
 ## Usage
 
 ### bare-bones setup
@@ -24,7 +23,7 @@ The main set of documentation can be found <a href="https://casualcoder91.github
 
 ```cpp
 #include <iostream>
-#include "Memory.h"
+#include "CasualLibrary.hpp"
 
 int main(){
     Memory::External memory = Memory::External("target.exe");
@@ -41,7 +40,7 @@ int main(){
   #include <Windows.h>
   #include <iostream>
 
-  #include <Memory.h>
+  #include "CasualLibrary.hpp"
 
   HMODULE myhModule;
 
