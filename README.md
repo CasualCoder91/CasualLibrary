@@ -40,7 +40,7 @@ int main(){
   #include <Windows.h>
   #include <iostream>
 
-  #include <Memory.h>
+  #include "CasualLibrary.hpp"
 
   HMODULE myhModule;
 
