@@ -152,7 +152,7 @@ Address clientAddr = memory.getModule("client.dll");
 #### internal
 
 ```cpp
-Address clientAddr = Internal::Memory::getModule("client.dll");
+Address clientAddr = Memory::Internal::getModule("client.dll");
 ```
 
 ### get address from static pointer + offsets
