@@ -14,7 +14,7 @@ Collaborative work provided by the <a href="https://discord.gg/CRMQq4F" target="
 
 ## Build from source
 
-If You want or need to build the project from source, You can eighter 
+If You want or need to build the project from source, You can either
  1. Download the whole repository
  2. Open the VS project (CasualLibrary.sln) with Visual Studio
  3. Right click the CasualLibrary and hit build
